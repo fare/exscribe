@@ -1,0 +1,22 @@
+#!/bin/sh
+## Test script for the exscribe-examples archive.
+
+# cl-compat.scr is the Scribe version of an common abstraction layer between
+# Exscribe and Scribe (Exscribe comes with its own variant of it).
+#
+# fare-style.scr is a collection of utilities I use in all my (Ex)Scribe files;
+# it depends on cl-compat.scr above.
+#
+# microsoft-monopoly.scr is the source code for one of my essays;
+# it stresses most of the features currently implemented in Exscribe.
+#
+
+# make -C ~/lisp/fare/exscribe LISPS=cmucl INSTALL_LIB=~/lib INSTALL_BIN=~/bin install
+
+# To compare times between Scribe and Exscribe, you may
+# time SCRIBE=exscribe ./test-exscribe
+# time SCRIBE=scribe ./test-exscribe
+
+: ${SCRIBE:=exscribe}
+
+$SCRIBE -o microsoft_monopoly.html microsoft_monopoly.scr

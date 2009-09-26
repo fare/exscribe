@@ -1,0 +1,12 @@
+#+xcvb
+(module
+ (:fullname "fare.tunes.org/exscribe"
+  :nicknames ("exscribe")
+  :supersedes-asdf ("exscribe")
+  :build-depends-on
+        ("cl-launch" "fare-utils"
+         "fare-matcher" "scribble"
+         #|"cl-typesetting"|#
+        )
+  :depends-on ("exscribe" "exscribe-html" "exscribe-txt" #|"exscribe-typeset"|#)
+  :build-image t))

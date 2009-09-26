@@ -1,0 +1,25 @@
+(defsystem exscribe
+   (:default-type #+nil :system :lisp-file)
+   :members (
+	     #+nil("cl-launch" :type :system)
+	     #+nil("scribble" :type :system)
+	     #+nil("fare-matcher" :type :system)
+	     #+nil("fare-utils" :type :system)
+	     #+exscribe-typeset ("cl-typesetting" :type :system)
+	     "packages"
+	     "macros"
+	     "specials"
+	     "scheme-compat"
+	     "eval"
+	     "exscribe"
+	     "exscribe-data"
+	     "bibliography"
+	     "html-dumper"
+	     "exscribe-html"
+	     "exscribe-txt"
+	     #+exscribe-typeset "exscribe-typeset"
+	     #+nil("zz" :type :lisp-file)
+	     #+nil("ff" :type :lisp-file :source-only t)
+	     )
+   :rules ((:in-order-to :compile :all
+ (:requires (:load :previous)))))
