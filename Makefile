@@ -1,3 +1,14 @@
+### Here, the XCVB way of building exscribe:
+# You need to export a proper XCVB_PATH and that's all.
+exscribe:
+	xcvb mkmk --build /exscribe
+	make -f xcvb.mk -j || XCVB_DEBUGGING=t make -f xcvb.mk
+	cl-launch --image obj/fare.tunes.org/exscribe.image --restart exscribe::main \
+		--dump ! --output exscribe
+
+
+### Below, the ASDF way of building the same thing:
+
 # User-configurable variables
 # You may edit the variables here, or override from the command-line.
 # 
@@ -32,7 +43,6 @@ SHELL=zsh -f --null-glob
 ##    cp -p $< $@
 
 
-
 install:
 	CL_LAUNCH_VERBOSE=${VERBOSE} \
 	cl-launch ${CLBUILD} --lisp "${LISPS}" \
@@ -41,6 +51,7 @@ install:
 		--output ${INSTALL_BIN}/exscribe \
 		${DUMP}
 
+### Other targets to help with the ASDF build:
 link:
 	ln -s $$PWD/exscribe.asd $SYSTEMS_DIR
 
@@ -48,6 +59,8 @@ clean:
 	-rm -f $(wildcard *.x86f *.lib *.fas *.fasl *.html *.pdf \
 		 xcvb.mk *.image *.cfasl foo bar baz *.[oa] *.data )
 
+
+### Tests:
 allimptests:
 	for LISP in clisp sbcl cmucl ; do $(MAKE) install alltests LISPS=$$LISP DUMP= ; done
 	for LISP in clisp sbcl cmucl ; do $(MAKE) install alltests LISPS=$$LISP ; done
@@ -83,6 +96,7 @@ btpdf:
 	time ${INSTALL_BIN}/exscribe -P -I ${HOME}/fare/www -o microsoft_monopoly.pdf ${HOME}/fare/www/liberty/microsoft_monopoly.scr
 
 
+### Building an tarball of examples:
 FAREWEB = ${HOME}/fare/www
 EXAMPLE_FILES = ${FAREWEB}/liberty/microsoft_monopoly.scr \
 		${FAREWEB}/fare-style.scr \
