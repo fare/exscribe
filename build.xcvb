@@ -8,5 +8,7 @@
          "fare-matcher" "scribble"
          #|"cl-typesetting"|#
         )
-  :depends-on ("exscribe" "exscribe-html" "exscribe-txt" #|"exscribe-typeset"|#)
+  :depends-on
+  ("scheme-compat"
+   "exscribe" "exscribe-html" "exscribe-txt" #|"exscribe-typeset"|#)
   :build-image t))
