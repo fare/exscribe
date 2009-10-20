@@ -1,4 +1,8 @@
+#+xcvb (module ())
+
 (in-package :cl-user)
+
+(require :asdf)
 
 ;;; 1- Configure your ASDF installation.
 (dolist (p '(#p"/usr/share/common-lisp/systems/" ;; in case we're running on Debian without clc
@@ -13,8 +17,8 @@
             ;;#+cmu (ext:inhibit-warnings 3)
             ))
 
-(cl-launch::DBG :exscribe-setup
-		asdf:*central-registry*)
+;;(asdf:oos 'asdf:load-op :cl-launch)
+;;(cl-launch::DBG :exscribe-setup asdf:*central-registry*)
 
 ;; Add your favorite implementation if you manage to get cl-pdf working with it.
 ;; Need that in both asd and here for XCVB to be happy...

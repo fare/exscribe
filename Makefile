@@ -1,7 +1,7 @@
 ### Here, the XCVB way of building exscribe:
 # You need to export a proper XCVB_PATH and that's all.
 exscribe:
-	xcvb mkmk --build /exscribe
+	xcvb mkmk --build /exscribe --no-master --setup /exscribe/setup
 	make -f xcvb.mk -j || XCVB_DEBUGGING=t make -f xcvb.mk
 	cl-launch --image obj/fare.tunes.org/exscribe.image --restart exscribe::main \
 		--dump ! --output exscribe
@@ -41,7 +41,6 @@ SHELL=zsh -f --null-glob
 ## -include xcvb.mk
 ## exscribe: ${IMAGES}/fare.tunes.org/exscribe
 ##    cp -p $< $@
-
 
 install:
 	CL_LAUNCH_VERBOSE=${VERBOSE} \

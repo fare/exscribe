@@ -6,9 +6,9 @@
   :build-depends-on
         ("cl-launch" "fare-utils"
          "fare-matcher" "scribble"
-         #|"cl-typesetting"|#
-        )
+         (:asdf "cl-typesetting"))
   :depends-on
   ("scheme-compat"
-   "exscribe" "exscribe-html" "exscribe-txt" #|"exscribe-typeset"|#)
+   "exscribe" "exscribe-html" "exscribe-txt" "exscribe-typeset")
+  :pre-image t ;; especially with cl-typesetting.
   :build-image t))

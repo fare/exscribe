@@ -1,13 +1,13 @@
 ;;;
 #+xcvb
-(module (
-       :depends-on (
-               "packages"
-               "specials"
-               "exscribe-data"
-               "bibliography"
-               "exscribe-html"
-               "exscribe-txt")))
+(module
+ (:depends-on
+  ("packages"
+   "specials"
+   "exscribe-data"
+   "bibliography"
+   "exscribe-html"
+   "exscribe-txt")))
 
 #|
 The xhtml renderer in the cl-typesetting contribs, as well as
