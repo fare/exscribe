@@ -120,7 +120,7 @@ SUPPORTED IMPLEMENTATIONS
 You may use your favorite CL implementation.
 Known working from fastest to slowest are
 	CMUCL 19c, SBCL 1.0, CLISP 2.41, OPENMCL 1.1pre, Allegro 5.0.
-Known not working are ECL 0.9i and GCL 2.7 (both bork in weird ways).
+Known not working are ECL 9.6.1 and GCL 2.7 (both bork in weird ways).
 Other implementations not supported (yet).
 
 ------>8------>8------>8------>8------>8------>8------>8------>8------>8------

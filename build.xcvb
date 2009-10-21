@@ -4,8 +4,8 @@
   :nicknames ("exscribe")
   :supersedes-asdf ("exscribe")
   :build-depends-on
-        ("cl-launch" "fare-utils"
-         "fare-matcher" "scribble"
+        ("/cl-launch" "/fare-utils"
+         "/fare-matcher" "/scribble"
          (:asdf "cl-typesetting"))
   :depends-on
   ("scheme-compat"
