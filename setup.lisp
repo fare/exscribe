@@ -1,4 +1,4 @@
-#+xcvb (module (:build-depends-on nil))
+#+xcvb (module (:build-depends-on ()))
 
 (in-package :cl-user)
 
@@ -6,6 +6,7 @@
 
 ;;; 1- Configure your ASDF installation.
 (dolist (p '(#p"/usr/share/common-lisp/systems/" ;; in case we're running on Debian without clc
+             (merge-pathnames "cl/clbuild/systems/" (user-homedir-pathname)) ;; clbuild
              (merge-pathnames ".local/share/common-lisp/systems/" (user-homedir-pathname)))) ;; my stuff
   (pushnew p asdf:*central-registry* :test #'equal))
 

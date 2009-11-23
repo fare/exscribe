@@ -1,9 +1,13 @@
 ### Here, the XCVB way of building exscribe:
 # You need to export a proper XCVB_PATH and that's all.
+XCVB_OBJECT_DIRECTORY := /tmp/fare/exscribe-obj
+
 exscribe:
-	xcvb mkmk --build /exscribe --setup /exscribe/setup
+	xcvb mkmk --build /exscribe --setup /exscribe/setup \
+		--object-directory ${XCVB_OBJECT_DIRECTORY}
 	make -f xcvb.mk -j || XCVB_DEBUGGING=t make -f xcvb.mk
-	cl-launch --image obj/fare.tunes.org/exscribe.image --restart exscribe::main \
+	cl-launch --image ${XCVB_OBJECT_DIRECTORY}/fare.tunes.org/exscribe.image \
+		--restart exscribe::main \
 		--dump ! --output exscribe
 
 

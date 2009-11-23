@@ -3,10 +3,10 @@
 #+xcvb
 (module
  (:depends-on
-  ("fare-utils/package"
-   "fare-utils/basic-lists"
-   "exscribe/packages"
-   "exscribe/specials")))
+  ("/fare-utils/package"
+   "/fare-utils/basic-lists"
+   "/exscribe/packages"
+   "/exscribe/specials")))
 
 #| "
 This code aims to provide a very thin layer of Scheme compatibility in CL.

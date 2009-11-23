@@ -6,7 +6,6 @@
 (in-package :cl)
 
 (defpackage :scheme-makeup
-  #-allegro
   (:documentation "a poor emulation of Scheme in CL.
 Meant to leverage simple code with Scheme syntax,
 not to actually implement deep Scheme semantics.")
@@ -32,7 +31,6 @@ not to actually implement deep Scheme semantics.")
    #:*scribe-format* #:*scribe-header* #:*scribe-footer*))
 
 (defpackage :scheme-compat
-  #-allegro
   (:documentation "innards of the Scheme in CL emulation")
   (:use :scheme-makeup :fare-utils :common-lisp)
   ;(:shadowing-import-from :scheme-makeup :map)
@@ -40,7 +38,6 @@ not to actually implement deep Scheme semantics.")
    #:set-scheme-macro-characters))
 
 (defpackage :exscribe
-  #-allegro
   (:documentation "core infrastructure for exscribe")
   (:use :common-lisp :fare-utils :scribble)
   #+exscribe-typeset
@@ -82,7 +79,6 @@ not to actually implement deep Scheme semantics.")
    #:document #:style))
 
 (defpackage :exscribe-data
-  #-allegro
   (:documentation "internal data representation for exscribe")
   (:use :exscribe :fare-utils :fare-matcher
 	:common-lisp)
@@ -109,7 +105,6 @@ not to actually implement deep Scheme semantics.")
    #:walking-document #:walk #:recurse))
 
 (defpackage :html-dumper
-  #-allegro
   (:documentation "HTML dumping functions")
   (:use :common-lisp)
   (:export
@@ -118,21 +113,18 @@ not to actually implement deep Scheme semantics.")
    #:html-tag-attr #:html-close-tag))
 
 (defpackage :exscribe-html
-  #-allegro
   (:documentation "HTML backend for exscribe")
   (:shadowing-import-from :exscribe-data #:html)
   (:use :exscribe-data :exscribe :fare-utils :fare-matcher
 	:html-dumper :common-lisp))
 
 (defpackage :exscribe-txt
-  #-allegro
   (:documentation "Text backend for exscribe")
   (:use :exscribe-data :exscribe :fare-utils :fare-matcher :common-lisp)
   (:export #:extract-text #:normalize-text))
 
 #+exscribe-typeset
 (defpackage :exscribe-typeset
-  #-allegro
   (:documentation "CL-Typesetting backend for exscribe")
   (:shadowing-import-from :exscribe-data #:image #:hrule #:table)
   (:use :exscribe-data :exscribe :fare-utils :fare-matcher
