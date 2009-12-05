@@ -98,9 +98,8 @@
     (when toc
       (push (cons type (id indent (a :href hname toc-text))) *toc*))
     (when label
-      (DBG :setlabel label hname title)
       (setf (gethash label *sections-by-label*) (cons hname title)))
-    (id (a :name name) (funcall display label))))
+    (id (a :name name) (funcall display toc-text))))
 (defun make-section (options)
   (let ((number (getf options :number t)))
     (when (eq number t) (setf number (incf *section-counter*)))
@@ -231,7 +230,6 @@
          (let* ((section-data (gethash section *sections-by-label*))
                 (hname (car section-data))
                 (title (cdr section-data)))
-           (DBG :getlabel section hname title)
            (replace-tag! doc :a (list :href hname) (list title))))
 	(* (walk doc))))
 

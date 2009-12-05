@@ -4,7 +4,7 @@
 
 (in-package :exscribe)
 
-(defparameter *exscribe-version* "0.95")
+(defparameter *exscribe-version* "0.95.1")
 ;;#.(multiple-value-bind (sec min hr day mo yr) (get-decoded-time) sec min hr (format nil "~A-~A-~A" yr mo day))
 
 (defvar *exscribe-initialized* nil "has exscribe already been initialized?")
