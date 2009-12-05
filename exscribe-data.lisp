@@ -117,9 +117,9 @@
 (deftag footnote () (note))
 (deftag ref () (url bib section subsection subsubsection))
 (deftag table-of-contents () (section subsection subsubsection))
-(deftag section () (number heading title toc refid))
-(deftag subsection () (number heading title toc refid))
-(deftag subsubsection () (number heading title toc refid))
+(deftag section () (number heading title toc refid label))
+(deftag subsection () (number heading title toc refid label))
+(deftag subsubsection () (number heading title toc refid label))
 
 (define-markup (center . x)
   (apply 'p :align 'center x))

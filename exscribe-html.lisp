@@ -98,7 +98,8 @@
     (when toc
       (push (cons type (id indent (a :href hname toc-text))) *toc*))
     (when label
-      (setf (gethash label *sections-by-label*) (cons hname toc-text)))
+      (DBG :setlabel label hname title)
+      (setf (gethash label *sections-by-label*) (cons hname title)))
     (id (a :name name) (funcall display label))))
 (defun make-section (options)
   (let ((number (getf options :number t)))
@@ -193,11 +194,6 @@
 	((tag :ref (list :bib entry) list)
          (unless (null list) (error "bad bib ref ~A" doc))
          (prepare-bib-ref doc entry))
-	((tag :ref (list :section section) *)
-         (let* ((section-data (gethash section *sections-by-label*))
-                (hname (car section-data))
-                (toc-text (cdr section-data)))
-	  (replace-tag! doc :a (list :href hname) toc-text)))
 	((tag :document options list)
 	  (replace-tag! doc :id ()
 			`(,@(when options (list (apply #'make-title options)))
@@ -226,6 +222,17 @@
 	((vector :table-of-contents options list)
 	  (replace-tag! doc :id () (cons (apply #'make-toc options) list))
 	  (walk doc))
+	(* (walk doc))))
+
+    ;; Another pass for internal references, after all sections are indexed.
+    (walking-document (doc *document*)
+      (match doc
+    	((tag :ref (list :section section) *)
+         (let* ((section-data (gethash section *sections-by-label*))
+                (hname (car section-data))
+                (title (cdr section-data)))
+           (DBG :getlabel section hname title)
+           (replace-tag! doc :a (list :href hname) (list title))))
 	(* (walk doc))))
 
     (setf *toc* (nreverse *toc*))
