@@ -70,6 +70,7 @@ not to actually implement deep Scheme semantics.")
    #:*footnotes* #:*footnote-counter* #:*footnotes-title*
    #:*section-counter* #:*subsection-counter* #:*subsubsection-counter*
    #:*section-name* #:*subsection-name* #:*subsubsection-name*
+   #:*sections-by-label*
    #:*toc*
    #:*background* #:*foreground* #:*title-background* #:*section-title-background*
    ;;; the "markup" call syntax

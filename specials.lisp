@@ -4,7 +4,7 @@
 
 (in-package :exscribe)
 
-(defparameter *exscribe-version* "0.94.2")
+(defparameter *exscribe-version* "0.95")
 ;;#.(multiple-value-bind (sec min hr day mo yr) (get-decoded-time) sec min hr (format nil "~A-~A-~A" yr mo day))
 
 (defvar *exscribe-initialized* nil "has exscribe already been initialized?")
@@ -48,6 +48,7 @@
 (defvar *section-name* nil "name of current section")
 (defvar *subsection-name* nil "name of current subsection")
 (defvar *subsubsection-name* nil "name of current subsubsection")
+(defvar *sections-by-label* (make-hash-table :test 'equal) "mapping from names to sections")
 
 (defvar *footnotes* nil "place-holder for footnotes being currently processed")
 (defvar *footnote-counter* 0 "counter for footnotes")

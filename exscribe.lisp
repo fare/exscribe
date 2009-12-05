@@ -168,6 +168,7 @@
 	(*header* nil)
 	(*footer* nil)
 	(*section-counter* 0)
+        (*sections-by-label* (make-hash-table :test 'equal))
 	(*bibliography* (exscribe-data::make-bib-table))
 	(*bibliography-options* nil)
 	(*bibliography-location* nil)
