@@ -1,18 +1,3 @@
-### Here, the XCVB way of building exscribe:
-# You need to export a proper XCVB_PATH and that's all.
-XCVB_OBJECT_DIRECTORY := /tmp/fare/exscribe-obj
-
-exscribe:
-	xcvb mkmk --build /exscribe --setup /exscribe/setup \
-		--object-directory ${XCVB_OBJECT_DIRECTORY}
-	make -f xcvb.mk -j || XCVB_DEBUGGING=t make -f xcvb.mk
-	cl-launch --image ${XCVB_OBJECT_DIRECTORY}/fare.tunes.org/exscribe.image \
-		--restart exscribe::main \
-		--dump ! --output exscribe
-
-
-### Below, the ASDF way of building the same thing:
-
 # User-configurable variables
 # You may edit the variables here, or override from the command-line.
 # 
@@ -42,11 +27,26 @@ VERBOSE=
 
 SHELL=zsh -f --null-glob
 
-## -include xcvb.mk
-## exscribe: ${IMAGES}/fare.tunes.org/exscribe
-##    cp -p $< $@
+### Here, the XCVB way of building exscribe:
+# You need to export a proper XCVB_PATH and that's all.
+XCVB_OBJECT_DIRECTORY := /tmp/fare/exscribe-obj
 
-install:
+${INSTALL_BIN}/exscribe: install
+install: install-with-xcvb
+#install: install-with-asdf
+
+# How to build it with XCVB:
+install-with-xcvb:
+	xcvb mkmk --build /exscribe --setup /exscribe/setup \
+		--object-directory ${XCVB_OBJECT_DIRECTORY}
+	make -f xcvb.mk -j || XCVB_DEBUGGING=t make -f xcvb.mk
+	cl-launch --image ${XCVB_OBJECT_DIRECTORY}/fare.tunes.org/exscribe.image \
+		--restart exscribe::main \
+		--output ${INSTALL_BIN}/exscribe \
+		${DUMP}
+
+### Below, the ASDF way of building the same thing:
+install-with-asdf:
 	CL_LAUNCH_VERBOSE=${VERBOSE} \
 	cl-launch ${CLBUILD} --lisp "${LISPS}" \
 		--path ${SYSTEMS_DIR} --no-include \

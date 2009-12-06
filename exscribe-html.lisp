@@ -226,11 +226,11 @@
     ;; Another pass for internal references, after all sections are indexed.
     (walking-document (doc *document*)
       (match doc
-    	((tag :ref (list :section section) *)
+    	((tag :ref (list :section section) body)
          (let* ((section-data (gethash section *sections-by-label*))
                 (hname (car section-data))
                 (title (cdr section-data)))
-           (replace-tag! doc :a (list :href hname) (list title))))
+           (replace-tag! doc :a (list :href hname) (or body (list title)))))
 	(* (walk doc))))
 
     (setf *toc* (nreverse *toc*))
