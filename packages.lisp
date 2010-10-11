@@ -1,7 +1,6 @@
 #+xcvb
 (module
- (:depends-on
-  ("fare-utils/package" "fare-matcher/packages" "scribble/package")))
+ (:depends-on ("scribble/package")))
 
 (in-package :cl)
 

@@ -3,8 +3,7 @@
 #+xcvb
 (module
  (:depends-on
-  ("/fare-utils/package"
-   "/fare-utils/basic-lists"
+  ("/fare-utils"
    "/exscribe/packages"
    "/exscribe/specials")))
 

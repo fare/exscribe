@@ -3,10 +3,8 @@
 #+xcvb
 (module
  (:depends-on
-  ("fare-utils/package"
-   "fare-utils/basic-macros"
-   "scribble/package"
-   "scribble/scribble"
+  ("fare-utils"
+   "scribble"
    "exscribe/packages"
    "exscribe/macros"
    "exscribe/specials")))

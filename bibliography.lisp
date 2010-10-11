@@ -7,11 +7,8 @@
 #+xcvb
 (module
  (:depends-on
-  ("fare-utils/package"
-   "fare-utils/basic-macros"
-   "fare-utils/basic-lists"
-   "fare-matcher/packages"
-   "fare-matcher/matcher"
+  ("fare-utils"
+   "fare-matcher"
    "exscribe/packages"
    "exscribe/macros"
    "exscribe/specials"
