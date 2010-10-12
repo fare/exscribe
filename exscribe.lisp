@@ -138,7 +138,7 @@
 (defun init-exscribe ()
   (recreate-user-package)
   (configure-scribble-for-exscribe)
-  (enable-scribble-syntax)
+  (enable-scribble-at-syntax :scribe t)
   (scheme-compat::set-scheme-macro-characters)
   (setf *exscribe-initialized* t))
 
@@ -148,7 +148,7 @@
 (defun reset-exscribe ()
   (ensure-exscribe)
   (recreate-user-package)
-  (reenable-scribble-syntax)
+  (reenable-scribble-at-syntax :scribe t)
   (set-exscribe-mode *exscribe-mode*)
   t)
 
