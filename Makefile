@@ -14,7 +14,6 @@
 INSTALL_BIN=${HOME}/bin
 INSTALL_LIB=${HOME}/.local/lib
 INSTALL_SHARE=${HOME}/.local/share
-SYSTEMS_DIR=${INSTALL_SHARE}/common-lisp/systems
 IMAGE_DIR=${INSTALL_LIB}/common-lisp/images
 LISPS=sbcl cmucl clisp openmcl allegro
 CLBUILD=--no-clbuild
@@ -49,14 +48,12 @@ install-with-xcvb:
 install-with-asdf:
 	CL_LAUNCH_VERBOSE=${VERBOSE} \
 	cl-launch ${CLBUILD} --lisp "${LISPS}" \
-		--path ${SYSTEMS_DIR} --no-include \
+		--no-include \
 		--file setup.lisp --system exscribe --restart 'exscribe::main' \
 		--output ${INSTALL_BIN}/exscribe \
 		${DUMP}
 
 ### Other targets to help with the ASDF build:
-link:
-	ln -s $$PWD/exscribe.asd $SYSTEMS_DIR
 
 clean:
 	-rm -f $(wildcard *.x86f *.lib *.fas *.fasl *.html *.pdf \

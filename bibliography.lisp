@@ -71,7 +71,7 @@
 		when (and (gethash :fields m)
 			  (or all (gethash :references m)))
 		collect m))
-	 (sorted (sort entries (or sort 'bib-sort/author))))
+	 (sorted (stable-sort entries (or sort 'bib-sort/author))))
     (loop with count = 0 for m in sorted
 	  do (setf (gethash :index m) (incf count)))
     sorted))

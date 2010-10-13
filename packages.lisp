@@ -68,6 +68,7 @@ not to actually implement deep Scheme semantics.")
    #:*document* #:*document-title* #:*header* #:*footer*
    #:*footnotes* #:*footnote-counter* #:*footnotes-title*
    #:*section-counter* #:*subsection-counter* #:*subsubsection-counter*
+   #:*generate-label-counter*
    #:*section-name* #:*subsection-name* #:*subsubsection-name*
    #:*sections-by-label*
    #:*toc*

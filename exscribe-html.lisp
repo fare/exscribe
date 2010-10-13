@@ -80,6 +80,9 @@
 (defun title-font (&rest x)
   (font :size "+1" :face "sans-serif" (apply 'bold x)))
 
+(defun generate-label ()
+  (format nil "G~3,'0D" (incf *generate-label-counter*)))
+
 (defun make-xsection (type indent options index display)
   (let* ((title (getf options :title))
 	 (toc (getf options :toc t))
@@ -88,7 +91,7 @@
                      title))
          (label (or (getf options :label)
                     (and (stringp title) title)))
-	 (tag (or index (gensym)))
+	 (tag (or index (generate-label)))
 	 (name (format nil "~A_~A" type tag))
          (hname (strcat "#" name)))
     (when toc
