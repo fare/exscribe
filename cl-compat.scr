@@ -32,7 +32,7 @@
   `(% (%%raw ,@r)))
 (define (raw-environment pre post)
   (let ((pre (%raw pre)) (post (%raw post)))
-    #'(lambda (x) (*list pre x post))))
+    #'(lambda (&rest x) (list pre x post))))
 (define-markup (format-selector
 		 (:txt #f) (:html #f) (:tex #f) (:info #f) (:man #f) (:pdf pdf))
   (ecase *scribe-format*

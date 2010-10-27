@@ -97,7 +97,7 @@ not to actually implement deep Scheme semantics.")
    #:title #:author #:year #:url #:journal #:month
    #:emph #:bold #:it #:underline #:center #:hr #:hrule #:footnote #:tt #:pre #:a
    #:blockquote #:sup #:sub
-   #:p #:font #:table #:tr #:td #:th #:itemize #:item #:br #:span
+   #:p #:font #:table #:tr #:td #:th #:itemize #:item #:br #:span #:div
    #:h1 #:h2 #:h3 #:h4 #:h5 #:h6
    #:small #:enumerate #:sc #:color #:code #:print-bibliography #:process-bibliography
    #:img #:image

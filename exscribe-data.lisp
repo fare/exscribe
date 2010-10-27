@@ -106,6 +106,7 @@
 (deftag item :li ())
 (deftag a () (href name))
 (deftag span () (style))
+(deftag div () (style))
 
 (deftag make-document :document (title author))
 (deftag author () (name url email affiliation))
