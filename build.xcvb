@@ -1,3 +1,4 @@
+;;-*- Lisp -*-
 #+xcvb
 (module
  (:fullname "fare.tunes.org/exscribe"
@@ -6,9 +7,12 @@
   :build-depends-on
         ("/cl-launch" "/fare-utils"
          "/fare-matcher" "/scribble"
-         (:asdf "cl-typesetting"))
+         (:when (:featurep :exscribe-typeset)
+           (:asdf "cl-typesetting")))
   :depends-on
   ("scheme-compat"
-   "exscribe" "exscribe-html" "exscribe-txt" "exscribe-typeset")
+   "exscribe" "exscribe-html" "exscribe-txt"
+   (:when (:featurep :exscribe-typeset)
+     "exscribe-typeset"))
   :pre-image t ;; especially with cl-typesetting.
   :build-image t))
