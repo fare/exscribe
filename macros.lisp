@@ -33,10 +33,12 @@
       (intern (symbol-name x) package)
       (error "~A isn't a keyword" x)))
 
+#| ; a better(?) version is in fare-utils/base/parse-cl-syntax.lisp
 (defun identifierp (x)
   (and (symbolp x)
        (not #+sbcl (sb-c::constantp x)
 	    #-sbcl (or (keywordp x) (typep x 'boolean)))))
+|#
 
 (defun decode-optional-spec (spec)
   (labels ((err () (error "invalid optional argument specification ~W" spec))
