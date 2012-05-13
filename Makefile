@@ -29,6 +29,7 @@ SHELL=zsh -f --null-glob
 ### Here, the XCVB way of building exscribe:
 # You need to export a proper XCVB_PATH and that's all.
 XCVB_WORKSPACE := /tmp/${USER}/exscribe-workspace
+XCVB_OBJECT_CACHE := ${XCVB_WORKSPACE}/obj
 
 ${INSTALL_BIN}/exscribe: install
 install: install-with-xcvb
@@ -36,10 +37,10 @@ install: install-with-xcvb
 
 # How to build it with XCVB:
 install-with-xcvb:
-	mkdir -p ${XCVB_WORKSPACE}
+	mkdir -p ${XCVB_WORKSPACE} ${XCVB_OBJECT_CACHE}
 	xcvb mkmk --build /exscribe --setup /exscribe/setup \
-		--lisp-implementation sbcl --workspace ${XCVB_WORKSPACE}
-	make -f ${XCVB_WORKSPACE}/xcvb.mk -j || XCVB_DEBUGGING=t make -f xcvb.mk
+		--lisp-implementation sbcl --workspace ${XCVB_WORKSPACE} --object-cache ${XCVB_OBJECT_CACHE}
+	make -C ${XCVB_WORKSPACE} -f xcvb.mk -j || XCVB_DEBUGGING=t make -f xcvb.mk
 	cl-launch --image ${XCVB_OBJECT_CACHE}/fare.tunes.org/exscribe.image \
 		--restart exscribe::main \
 		--output ${INSTALL_BIN}/exscribe \
