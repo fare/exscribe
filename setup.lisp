@@ -23,6 +23,9 @@
 
 ;; Add your favorite implementation if you manage to get cl-pdf working with it.
 ;; Need that in both asd and here for XCVB to be happy...
+#| ;; Can't do that until XCVB does the right thing and
+   ;; loads the setup before it extracts the target *features*
 #+(or sbcl clisp openmcl lispworks)
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (pushnew :exscribe-typeset *features*))
+|#
