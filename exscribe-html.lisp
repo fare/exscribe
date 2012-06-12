@@ -112,7 +112,7 @@
 (defun make-subsection (options)
   (let ((number (getf options :number t)))
     (when (eq number t)
-      (setf number (format nil "~A.~A"
+      (setf number (format nil "~@{~A~}.~A"
 			   *section-name*
 			   (incf *subsection-counter*))))
     (setf *subsection-name* number *subsubsection-counter* 0)
@@ -120,7 +120,7 @@
 (defun make-subsubsection (options)
   (let ((number (getf options :number t)))
     (when (eq number t)
-      (setf number (format nil "~A.~A"
+      (setf number (format nil "~@{~A.~}~A"
 			   *subsection-name*
 			   (incf *subsubsection-counter*))))
     (setf *subsubsection-name* number)
