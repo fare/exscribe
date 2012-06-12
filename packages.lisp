@@ -38,7 +38,7 @@ not to actually implement deep Scheme semantics.")
 
 (defpackage :exscribe
   (:documentation "core infrastructure for exscribe")
-  (:use :common-lisp :fare-utils :scribble)
+  (:use :common-lisp :fare-utils :scribble :asdf)
   #+exscribe-typeset
   (:import-from :typeset
    #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*

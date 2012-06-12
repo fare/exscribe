@@ -56,11 +56,7 @@ TODO:
 |#
 
 (defun slurp (f)
-  (let ((eof '#:eof))
-    (with-open-file (s f :direction :input :if-does-not-exist :error)
-      (loop for i = (read s nil eof nil)
-	until (eq i eof)
-	collect i))))
+  (xcvb-driver:slurp-file-lines f))
 
 (defun scrulp (f)
   (reenable-scribble-syntax)
@@ -69,7 +65,7 @@ TODO:
 (defvar *h* nil)
 
 (defun in-home (f)
-  (concatenate 'string (cl-launch:getenv "HOME") "/" f))
+  (strcat (cl-launch:getenv "HOME") "/" f))
 
 ;;(setq *h* (scrulp (in-home "fare/www/index.scr")))
 

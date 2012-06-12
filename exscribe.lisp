@@ -14,7 +14,7 @@
 ;;; pathname munging
 
 (defun add-exscribe-path (d)
-  (setf *exscribe-path* (append *exscribe-path* (list (ensure-directory-pathname d)))))
+  (append1f *exscribe-path* (ensure-directory-pathname d)))
 
 (defun maybe-error (user-default if-error)
   (flet ((f (x)
@@ -34,11 +34,11 @@
 		      ((or string pathname) (list types))))))
     (if (absolute-pathname-p p) p
 	(or
-	 (loop for d in l
-	       for x = (merge-pathnames p d)
-	       thereis (or (probe-file x)
-			   (loop for tx in tp
-				 thereis (probe-file (merge-pathnames x tx)))))
+	 (loop :for d :in l
+           :for x = (merge-pathnames* p d)
+           :thereis (or (probe-file* x)
+                        (loop :for tx :in tp
+                          :thereis (probe-file* (merge-pathnames* x tx)))))
 	 (on-error if-error
 		   (error "Cannot find file ~A in search path ~A" f l))))))
 
@@ -51,11 +51,9 @@
 
 (defun read-eval-stream (s &key &allow-other-keys)
   (let ((forms (xxtime ("<== reading ~A~%" s)
-		(loop with eof = '#:eof
-		      for i = (read s nil eof) until (eq i eof)
-		      collect i))))
+                 (xcvb-driver:slurp-stream-forms s))))
     (xxtime ("<== evaluating ~A~%" s)
-	   (loop for i in forms do (eval i)))))
+      (map () #'eval forms))))
 
 (defun do-load (s &key &allow-other-keys)
   (typecase s
@@ -210,12 +208,6 @@
                                        #-pdf-binary #+sbcl 'character #-sbcl 'base-char
                          )
 	  (exscribe-load-document input))))))
-
-(defparameter *wild-path*
-   (make-pathname :directory '(:relative :wild-inferiors)
-		  :name :wild :type :wild :version :wild))
-(defun wilden (path)
-   (merge-pathnames *wild-path* path))
 
 (defun process-many (src dst &rest files)
   (add-exscribe-path src)

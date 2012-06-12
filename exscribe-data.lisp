@@ -94,7 +94,7 @@
     h1 h2 h3 h4 h5 h6)
 
 (deftag body () (color bgcolor))
-(deftag p () (align))
+(deftag p () (align style))
 (deftag font () (size face color bgcolor))
 (deftag td () (align valign width height color bgcolor colspan rowspan))
 (deftag th () (align valign width height color bgcolor colspan rowspan))
