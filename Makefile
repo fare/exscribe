@@ -39,8 +39,11 @@ install: install-with-xcvb
 install-with-xcvb:
 	mkdir -p ${XCVB_WORKSPACE} ${XCVB_OBJECT_CACHE}
 	xcvb mkmk --build /exscribe --setup /exscribe/setup \
-		--lisp-implementation sbcl --workspace ${XCVB_WORKSPACE} --object-cache ${XCVB_OBJECT_CACHE}
-	make -C ${XCVB_WORKSPACE} -f xcvb.mk -j || XCVB_DEBUGGING=t make -f xcvb.mk
+		--lisp-implementation sbcl \
+		--workspace ${XCVB_WORKSPACE} \
+		--object-cache ${XCVB_OBJECT_CACHE}
+	make -C ${XCVB_WORKSPACE} -f xcvb.mk -j || \
+		XCVB_DEBUGGING=t make -f xcvb.mk
 	cl-launch --image ${XCVB_OBJECT_CACHE}/fare.tunes.org/exscribe.image \
 		--restart exscribe::main \
 		--output ${INSTALL_BIN}/exscribe \
