@@ -49,18 +49,10 @@
     ((or string pathname)
      (find-file-in-path f *exscribe-path* "scr" if-error))))
 
-(defun read-eval-stream (s &key &allow-other-keys)
-  (let ((forms (xxtime ("<== reading ~A~%" s)
-                 (xcvb-driver:slurp-stream-forms s))))
-    (xxtime ("<== evaluating ~A~%" s)
-      (map () #'eval forms))))
-
 (defun do-load (s &key &allow-other-keys)
   (typecase s
-    (stream (read-eval-stream s))
-    ((or string pathname)
-     (with-open-file (i s :direction :input :if-does-not-exist :error)
-       (read-eval-stream i)))))
+    (stream (cl-launch::load-stream s))
+    ((or string pathname) (load s))))
 
 (defun file-optimization ()
   (proclaim `(optimize (speed 1) (space 2)
@@ -253,8 +245,8 @@ Options:
   (if (null args)
       (help)
     (loop
-      with inputs = nil with output = nil
-      for a = (pop args) while a do
+      :with inputs = nil :with output = nil
+      :for a = (pop args) :while a :do
       (macrolet ((x (&rest l) `(member a ',l :test 'equal)))
 	(cond
 	 ((x "-h" "-?" "--help") (return (help)))
@@ -286,13 +278,12 @@ Options:
 	 ((equal (char a 0) #\-)
 	  (error "Unrecognized option ~A" a))
 	 (t (push a inputs))))
-      finally
-      (progn
-	(unless (length=n-p inputs 1)
-	  (error "Requiring a unique input, got ~A" inputs))
-	(unless output
-	  (error "No output specified"))
-	(process-file (car inputs) :into output)))))
+      :finally
+      (unless (length=n-p inputs 1)
+        (error "Requiring a unique input, got ~A" inputs))
+      (unless output
+        (error "No output specified"))
+      (process-file (car inputs) :into output))))
 
 #+cl-launch
 (defun main ()

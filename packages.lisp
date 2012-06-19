@@ -54,6 +54,8 @@ not to actually implement deep Scheme semantics.")
    #:*font-bold-italic* #:*font-monospace* #:*default-text-style*
    #:*chapter-styles*)
   (:export
+   #:init-exscribe #:ensure-exscribe
+   #:add-exscribe-path
    ;;; scribble
    #:configure-scribble-for-exscribe
    #:klist #:*list
