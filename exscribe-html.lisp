@@ -255,6 +255,7 @@
     (dump-document)))
 
 (defun init ()
-  (setf scribble:*scribble-preprocess* t
-	scribble:*scribble-preprocessor* #'html-dumper:html-escape
+  (setf scribble:*scribble-preprocess* nil
+        ;; scribble:*scribble-preprocess* t
+	;; scribble:*scribble-preprocessor* #'html-dumper:html-escape
 	*exscribe-document-hook* 'process-document))

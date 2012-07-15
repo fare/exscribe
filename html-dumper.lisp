@@ -59,6 +59,7 @@ As compared to the original html.lisp, here are the changes:
 
 (defun html-escape-stream (s html-string &optional test)
   (unless test (setf test 'html-reserved-p))
+  (when (characterp html-string) (setf html-string (string html-string)))
   (loop for c across html-string do
 	(if (funcall test c)
 	    (if (eql c #\Newline)
@@ -147,15 +148,22 @@ As compared to the original html.lisp, here are the changes:
     ((streamp out) (html-stream out things))
     (t (error ""))))
 
-; Fare: Here are the incompatibilities introduced by my patch
-; wrt the original function html-stream from araneida CVS.
-; * a newline is systematically inserted *before* the > in a closing tag
-;  (see function html-close-tag above)
-; * handlers like they existed in the original html function are introduced.
-;  they are in the alist of the tag symbol, key :html-stream-converter;
-;  a handler is a function that takes the output stream, tag, attr, content
-;  and does its job. Function values are handlers, too.
-; * functions in variable position are called with the output stream.
+#|
+Fare: Here are the incompatibilities introduced by my patch
+wrt the original function html-stream from araneida CVS.
+* a newline is systematically inserted *before* the > in a closing tag
+ (see function html-close-tag above)
+* handlers like they existed in the original html function are introduced.
+ they are in the alist of the tag symbol, key :html-stream-converter;
+ a handler is a function that takes the output stream, tag, attr, content
+ and does its job. Function values are handlers, too.
+* strings are escaped by default.
+* for raw, unescaped strings, use a one-element vector containing the string,
+ or use a function as below that princ's the string.
+* functions in variable position are called with the output stream.
+* anything else is an error, not a call to princ
+
+|#
 
 (defun html-stream-element (stream tag attr content &optional special)
   (let ((handler (cond
@@ -177,36 +185,43 @@ As compared to the original html.lisp, here are the changes:
 	 (html-stream stream c))
        (html-close-tag stream tag)))))
 
+(defun html-node-p (x)
+  (and (simple-vector-p x) (<= 3 (length x) 4)))
+
 (defun html-stream (stream thing)
   "Print supplied argument as HTML."
    (declare (optimize (speed 3))
 	    (type stream stream))
-   (cond
-     ((and (typep thing 'simple-vector) (<= 3 (length thing) 4))
+   (typecase thing
+     ((and simple-vector (satisfies html-node-p))
       (apply #'html-stream-element stream
 	     (svref thing 0) (svref thing 1) (svref thing 2)
 	     (if (= 4 (length thing)) (list (svref thing 3)))))
      #+araneida-compat
-     ((and (consp thing) (or (typep (car thing) '(or symbol function))
-			     (and (consp (car thing))
-				  (typep (caar thing) '(or symbol function)))))
+     ((cons (or symbol function (cons (or symbol function) *)) *)
       (let* ((tag (if (consp (car thing)) (caar thing) (car thing)))
 	     (attr (if (consp (car thing)) (cdar thing) ()))
 	     (content (cdr thing)))
 	(html-stream-element stream tag attr content)))
-     ((consp thing)
+     (cons
       #+araneida-compat
       (dolist (thing thing) (html-stream stream thing))
       #-araneida-compat #-araneida-compat
       (html-stream stream (car thing))
       (html-stream stream (cdr thing)))
-     ((keywordp thing)
+     (keyword
       (write-char #\< stream)
       (html-keyword stream thing)
       (write-char #\> stream))
      ;;((null thing)); symbol has it
-     ((symbolp thing))
-     ((functionp thing)
+     (symbol)
+     ((or string character)
+      (html-escape-stream stream thing))
+     (function
       (funcall thing stream))
+     ((vector string 1)
+      (princ (aref thing 0) stream))
+     (number
+      (princ thing stream))
      (t
-      (princ thing stream))))
+      (error "Cannot dump html for ~S" thing))))

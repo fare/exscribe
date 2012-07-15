@@ -12,7 +12,7 @@ using a high-level syntax (Scribble) completely integrated with the CL syntax.
 It notably features proper support for footnotes, table-of-contents, bibliography."
   :depends-on (:cl-launch ;; Always put cl-launch first
                :xcvb-driver
-               :scribble :fare-matcher :fare-utils
+               :scribble :fare-matcher :fare-utils :fare-memoization
 	       #+exscribe-typeset :cl-typesetting)
   :components ((:file "packages")
 	       (:file "macros" :depends-on ("packages"))
