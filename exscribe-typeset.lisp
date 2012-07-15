@@ -386,8 +386,6 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
      (let ((*significant-whitespace* t))
        (process (string #\Newline))))
 
-
-
     ((tag :author options list)
      (destructuring-bind (&key name url) options
        (when name
@@ -411,6 +409,10 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
 	      (with-style (:color :blue)
 		(put-string ,href))
 	      ")")))
+
+    ((tag :tt () body)
+     (emit `(with-style (:font "Helvetica" :font-size 12)
+              ,@(process body))))
 
     ((tag :ref (list :bib entry) *)
      (emit `(format-string "[~a]" ,entry)))

@@ -1,9 +1,9 @@
 ;;; -*- Lisp -*-
 
 ;; Add your favorite implementation if you manage to get cl-pdf working with it.
-#|#+(or sbcl clisp clozure lispworks)
+#+(or sbcl clisp clozure lispworks)
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (pushnew :exscribe-typeset *features*))|#
+  (pushnew :exscribe-typeset *features*))
 
 (defsystem :exscribe
   :description "Programmatically create HTML documents from a high-level syntax"
