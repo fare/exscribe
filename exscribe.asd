@@ -10,9 +10,9 @@
   :long-description "Exscribe helps you author documents and produce HTML output,
 using a high-level syntax (Scribble) completely integrated with the CL syntax.
 It notably features proper support for footnotes, table-of-contents, bibliography."
-  :depends-on (:cl-launch ;; Always put cl-launch first
-               :xcvb-driver
+  :depends-on (:cl-launch :xcvb-driver
                :scribble :fare-matcher :fare-utils :fare-memoization
+               :alexandria
 	       #+exscribe-typeset :cl-typesetting)
   :components ((:file "packages")
 	       (:file "macros" :depends-on ("packages"))

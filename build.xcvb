@@ -6,7 +6,7 @@
   :supersedes-asdf ("exscribe")
   :build-depends-on
         ("/cl-launch" "/xcvb/driver" "/fare-utils"
-         "/fare-matcher" "/scribble"
+         "/fare-matcher" "/scribble" (:asdf "alexandria")
          (:when (:featurep :exscribe-typeset)
            (:asdf "cl-typesetting")))
   :depends-on

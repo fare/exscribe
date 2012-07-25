@@ -243,11 +243,7 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
 	     ((equal features '(:bold)) #b10)
 	     ((equal features '(:italic)) #b01)
 	     ((equal features '(:bold :italic)) #b11)
-	     ((equal features '(:italic :bold)) #b11)))
-	 (ensure-list (obj)
-	   (if (consp obj)
-	       obj
-	       (list obj))))
+	     ((equal features '(:italic :bold)) #b11))))
     (loop for f in *font-variants* do
 	 (let ((pos (position font f :test #'string-equal)))
 	   (when pos
