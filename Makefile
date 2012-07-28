@@ -43,7 +43,7 @@ install-with-xcvb:
 		--workspace ${XCVB_WORKSPACE} \
 		--object-cache ${XCVB_OBJECT_CACHE}
 	make -C ${XCVB_WORKSPACE} -f xcvb.mk -j || \
-		XCVB_DEBUGGING=t make -f xcvb.mk
+		XCVB_DEBUGGING=t make -C ${XCVB_WORKSPACE} -f xcvb.mk
 	cl-launch --image ${XCVB_OBJECT_CACHE}/fare.tunes.org/exscribe.image \
 		--restart exscribe::main \
 		--output ${INSTALL_BIN}/exscribe \

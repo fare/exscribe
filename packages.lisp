@@ -125,10 +125,11 @@ not to actually implement deep Scheme semantics.")
   (:documentation "HTML backend for exscribe")
   (:shadowing-import-from :exscribe-data #:html)
   (:use :exscribe-data :exscribe :fare-utils :fare-matcher :alexandria
-	:html-dumper :common-lisp)
+	:html-dumper :common-lisp :asdf)
+  (:shadowing-import-from :asdf
+   #:appendf #:ends-with #:featurep) ;; also in alexandria
   (:shadowing-import-from :fare-matcher
    #:of-type)) ;; also in alexandria
-
 
 (defpackage :exscribe-txt
   (:documentation "Text backend for exscribe")
@@ -149,5 +150,7 @@ not to actually implement deep Scheme semantics.")
 (defpackage :exscribe-user
   ;(:shadowing-import-from :scheme-makeup :map)
   (:use :exscribe-html :exscribe-data :exscribe :fare-matcher
-	:fare-utils :scheme-makeup :common-lisp :alexandria)
+	:fare-utils :scheme-makeup :common-lisp :alexandria :asdf)
+  (:shadowing-import-from :asdf
+   #:appendf #:ends-with #:featurep) ;; also in alexandria
   (:shadowing-import-from :fare-matcher #:of-type)) ;; also in alexandria

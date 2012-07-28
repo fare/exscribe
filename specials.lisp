@@ -9,13 +9,8 @@
 
 (defvar *exscribe-initialized* nil "has exscribe already been initialized?")
 
-(defun ensure-directory-pathname (d)
-  (typecase d
-    (string (parse-namestring (concatenate 'string d "/")))
-    (pathname (make-pathname :name nil :type nil :version nil :defaults d))))
-
 (defvar *exscribe-directory*
-  (ensure-directory-pathname
+  (pathname-directory-pathname
    (or #.(or *compile-file-pathname* *load-pathname*)
        *compile-file-pathname* *load-pathname*)))
 
