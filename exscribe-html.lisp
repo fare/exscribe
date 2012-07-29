@@ -116,7 +116,7 @@
 			   *section-name*
 			   (incf *subsection-counter*))))
     (setf *subsection-name* number *subsubsection-counter* 0)
-    (make-xsection :subsection  "&nbsp;&nbsp;&nbsp;" options number #'title-font)))
+    (make-xsection :subsection  #("&nbsp;&nbsp;&nbsp;") options number #'title-font)))
 (defun make-subsubsection (options)
   (let ((number (getf options :number t)))
     (when (eq number t)
@@ -124,7 +124,7 @@
 			   *subsection-name*
 			   (incf *subsubsection-counter*))))
     (setf *subsubsection-name* number)
-    (make-xsection :subsubsection "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+    (make-xsection :subsubsection #("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
 		   options number
                    #'(lambda (x) (p :align 'left (bold x) " ")))))
 
