@@ -31,14 +31,14 @@ not to actually implement deep Scheme semantics.")
 
 (defpackage :scheme-compat
   (:documentation "innards of the Scheme in CL emulation")
-  (:use :scheme-makeup :fare-utils :common-lisp)
+  (:use :scheme-makeup :xcvb-utils :common-lisp)
   ;(:shadowing-import-from :scheme-makeup :map)
   (:export
    #:set-scheme-macro-characters))
 
 (defpackage :exscribe
   (:documentation "core infrastructure for exscribe")
-  (:use :common-lisp :fare-utils :scribble :asdf :alexandria)
+  (:use :common-lisp :xcvb-utils :scribble)
   (:shadowing-import-from :asdf
    #:appendf #:ends-with #:featurep) ;; also in alexandria
   (:shadowing-import-from :fare-matcher
@@ -87,8 +87,7 @@ not to actually implement deep Scheme semantics.")
 
 (defpackage :exscribe-data
   (:documentation "internal data representation for exscribe")
-  (:use :exscribe :fare-utils :fare-matcher :alexandria
-	:common-lisp)
+  (:use :exscribe :xcvb-utils :fare-matcher :common-lisp)
   (:shadowing-import-from :fare-matcher
    #:of-type) ;; also in alexandria
   (:export
@@ -124,18 +123,12 @@ not to actually implement deep Scheme semantics.")
 (defpackage :exscribe-html
   (:documentation "HTML backend for exscribe")
   (:shadowing-import-from :exscribe-data #:html)
-  (:use :exscribe-data :exscribe :fare-utils :fare-matcher :alexandria
-	:html-dumper :common-lisp :asdf)
-  (:shadowing-import-from :asdf
-   #:appendf #:ends-with #:featurep) ;; also in alexandria
-  (:shadowing-import-from :fare-matcher
-   #:of-type)) ;; also in alexandria
+  (:use :exscribe-data :exscribe :xcvb-utils :fare-matcher
+	:html-dumper :common-lisp))
 
 (defpackage :exscribe-txt
   (:documentation "Text backend for exscribe")
-  (:use :exscribe-data :exscribe :fare-utils :fare-matcher :alexandria :common-lisp)
-  (:shadowing-import-from :fare-matcher
-   #:of-type) ;; also in alexandria
+  (:use :exscribe-data :exscribe :xcvb-utils :fare-matcher :common-lisp)
   (:export #:extract-text #:normalize-text))
 
 #+exscribe-typeset
@@ -150,7 +143,4 @@ not to actually implement deep Scheme semantics.")
 (defpackage :exscribe-user
   ;(:shadowing-import-from :scheme-makeup :map)
   (:use :exscribe-html :exscribe-data :exscribe :fare-matcher
-	:fare-utils :scheme-makeup :common-lisp :alexandria :asdf)
-  (:shadowing-import-from :asdf
-   #:appendf #:ends-with #:featurep) ;; also in alexandria
-  (:shadowing-import-from :fare-matcher #:of-type)) ;; also in alexandria
+	:xcvb-utils :scheme-makeup :common-lisp))
