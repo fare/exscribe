@@ -39,10 +39,6 @@ not to actually implement deep Scheme semantics.")
 (defpackage :exscribe
   (:documentation "core infrastructure for exscribe")
   (:use :common-lisp :xcvb-utils :scribble)
-  (:shadowing-import-from :asdf
-   #:appendf #:ends-with #:featurep) ;; also in alexandria
-  (:shadowing-import-from :fare-matcher
-   #:of-type) ;; also in alexandria
   #+exscribe-typeset
   (:import-from :typeset
    #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*
@@ -88,8 +84,6 @@ not to actually implement deep Scheme semantics.")
 (defpackage :exscribe-data
   (:documentation "internal data representation for exscribe")
   (:use :exscribe :xcvb-utils :fare-matcher :common-lisp)
-  (:shadowing-import-from :fare-matcher
-   #:of-type) ;; also in alexandria
   (:export
    #:tag-attr #:tag #:xtag #:otag #:ctag
    #:make-xml-tag #:make-open-tag #:make-close-tag
@@ -135,9 +129,8 @@ not to actually implement deep Scheme semantics.")
 (defpackage :exscribe-typeset
   (:documentation "CL-Typesetting backend for exscribe")
   (:shadowing-import-from :exscribe-data #:image #:hrule #:table)
-  (:shadowing-import-from :fare-matcher #:of-type) ;; also in alexandria
-  (:use :exscribe-data :exscribe :fare-utils :fare-matcher
-        :common-lisp :typeset :alexandria)
+  (:use :exscribe-data :exscribe :xcvb-utils :fare-matcher
+        :common-lisp :typeset)
   (:export))
 
 (defpackage :exscribe-user
