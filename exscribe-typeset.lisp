@@ -122,7 +122,7 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
 
 		    (emit `(mark-ref-point "DocumentEnd"))))
 
-		 (*
+		 (_
 		  (error "Top-level document malformed")))))
     (dolist (h (reverse *postprocess-hooks*))
       (funcall h))
@@ -334,16 +334,16 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
      (process a)
      (process b))
 
-    ((of-type character)
+    ((typep character)
      (process (string x)))
 
-    ((of-type string)
+    ((typep string)
      (emit (if *significant-whitespace*
 	       `(verbatim ,x)
 	       `(put-string ,x))))
 
     ;; having full blown closures generated in order to print a single character  which can just be included as-is seems like a gratuitious complexity to me. or is there a deeper reason, maybe for other backends?
-    ((of-type function)
+    ((typep function)
      (emit `(verbatim ,(with-output-to-string (s) (funcall x s)))))
 
     ((tag :p options list)
@@ -358,27 +358,27 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
 		  :hfill)
 		(vspace 12)))))
 
-    ((tag :i * list)
+    ((tag :i _ list)
      (emit `(with-style (:font (transform-font (pdf:name typeset::*font*)
 					       :add :italic))
 	      ,@(process-list list))))
 
-    ((tag :b * list)
+    ((tag :b _ list)
      (emit `(with-style (:font (transform-font (pdf:name typeset::*font*)
 					       :add :bold))
 	      ,@(process-list list))))
 
-    ((tag :em * list)
+    ((tag :em _ list)
      (emit `(with-style (:font (transform-font (pdf:name typeset::*font*)
 					       :toggle :italic))
 	      ,@(process-list list))))
 
-    ((tag :u * list)
+    ((tag :u _ list)
      (emit `(with-style (:font (transform-font (pdf:name typeset::*font*)
 					       :add :italic))
 	      ,@(process-list list))))
 
-    ((tag :br * *)
+    ((tag :br _ _)
      (let ((*significant-whitespace* t))
        (process (string #\Newline))))
 
@@ -410,23 +410,23 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
      (emit `(with-style (:font "Helvetica" :font-size 12)
               ,@(process body))))
 
-    ((tag :ref (list :bib entry) *)
+    ((tag :ref (list :bib entry) _)
      (emit `(format-string "[~a]" ,entry)))
 
-    ((tag :ref (list :section section) *)
+    ((tag :ref (list :section section) _)
      (emit `(format-string "~s" ,section)))
 
-    ((tag :footnote (list :note note) list)
+    ((tag :footnote (list :note note) _)
      ;; FIXME: see what list variable may contain
      (let ((n (incf *footnote-counter*)))
        (emit `(with-superscript ()
 		,(princ-to-string n)))
        (push (cons n note) *footnotes*)))
 
-    ((tag :font * list)
+    ((tag :font _ list)
      (process list))
 
-    ((tag :bibliography options list)
+    ((tag :bibliography _ list)
      (destructuring-bind ((header . entries)) list
        (when header
 	 (process header))
@@ -450,7 +450,7 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
     ((tag :subsubsection options list)
      (process-section 2 options list))
 
-    ((vector :table-of-contents options list)
+    ((vector :table-of-contents _ _)
      (delayed-emit `(progn ,@(make-toc)))
      #+nil
      (dolist (e (nreverse *toc*))
@@ -473,12 +473,12 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
     ((tag :id nil list)
      (process list))
 
-    ((tag :hr * *)
+    ((tag :hr _ _)
      #+nil(emit '(hrule :dy .1)))
 
-    ((tag :a * *))
+    ((tag :a _ _))
 
-    ((tag :blockquote * list)
+    ((tag :blockquote _ list)
      (emit `(paragraph
 		(:h-align :left
 		 :font "Times-Roman"

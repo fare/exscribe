@@ -31,14 +31,16 @@ not to actually implement deep Scheme semantics.")
 
 (defpackage :scheme-compat
   (:documentation "innards of the Scheme in CL emulation")
-  (:use :scheme-makeup :xcvb-utils :common-lisp)
-  ;(:shadowing-import-from :scheme-makeup :map)
+  (:use :scheme-makeup
+        :xcvb-utils :fare-quasiquote :optima :common-lisp)
+  ;;(:shadowing-import-from :scheme-makeup :map)
   (:export
    #:set-scheme-macro-characters))
 
 (defpackage :exscribe
   (:documentation "core infrastructure for exscribe")
-  (:use :common-lisp :xcvb-utils :scribble)
+  (:use :scribble
+        :xcvb-utils :fare-quasiquote :optima :common-lisp)
   #+exscribe-typeset
   (:import-from :typeset
    #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*
@@ -83,7 +85,8 @@ not to actually implement deep Scheme semantics.")
 
 (defpackage :exscribe-data
   (:documentation "internal data representation for exscribe")
-  (:use :exscribe :xcvb-utils :fare-matcher :common-lisp)
+  (:use :exscribe
+        :xcvb-utils :fare-quasiquote :optima :common-lisp)
   (:export
    #:tag-attr #:tag #:xtag #:otag #:ctag
    #:make-xml-tag #:make-open-tag #:make-close-tag
@@ -117,23 +120,25 @@ not to actually implement deep Scheme semantics.")
 (defpackage :exscribe-html
   (:documentation "HTML backend for exscribe")
   (:shadowing-import-from :exscribe-data #:html)
-  (:use :exscribe-data :exscribe :xcvb-utils :fare-matcher
-	:html-dumper :common-lisp))
+  (:use :exscribe-data :exscribe :html-dumper
+        :xcvb-utils :fare-quasiquote :optima :common-lisp))
 
 (defpackage :exscribe-txt
   (:documentation "Text backend for exscribe")
-  (:use :exscribe-data :exscribe :xcvb-utils :fare-matcher :common-lisp)
+  (:use :exscribe-data :exscribe
+        :xcvb-utils :fare-quasiquote :optima :common-lisp)
   (:export #:extract-text #:normalize-text))
 
 #+exscribe-typeset
 (defpackage :exscribe-typeset
   (:documentation "CL-Typesetting backend for exscribe")
   (:shadowing-import-from :exscribe-data #:image #:hrule #:table)
-  (:use :exscribe-data :exscribe :xcvb-utils :fare-matcher
-        :common-lisp :typeset)
+  (:use :exscribe-data :exscribe :typeset
+        :xcvb-utils :fare-quasiquote :optima :common-lisp)
   (:export))
 
 (defpackage :exscribe-user
   ;(:shadowing-import-from :scheme-makeup :map)
-  (:use :exscribe-html :exscribe-data :exscribe :fare-matcher
-	:xcvb-utils :scheme-makeup :common-lisp))
+  (:use :exscribe-html :exscribe-data :exscribe :scheme-makeup
+        :xcvb-utils :fare-quasiquote :optima :common-lisp)
+  (:export))

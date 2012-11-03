@@ -1,9 +1,7 @@
 #+xcvb
 (module
  (:depends-on
-  ("fare-utils"
-   "fare-matcher"
-   "scribble"
+  ("/scribble"
    "exscribe/packages"
    "exscribe/macros"
    "exscribe/specials"
@@ -55,12 +53,12 @@
 	 (return-from find-first-paragraph nil))
        (walk (x)
 	 (match x
-	   ((tag :p * *) x)
-	   ((tag :id * x) (walk x))
-	   ((tag * * *) (fail))
-	   ((of-type string) (fail))
+	   ((tag :p _ _) x)
+	   ((tag :id _ x) (walk x))
+	   ((tag _ _ _) (fail))
+	   ((typep string) (fail))
 	   ((cons x y) (or (walk x) (walk y)))
-	   (* nil))))
+	   (_ nil))))
     (walk x)))
 
 (defun edit-footnote (note num)
@@ -220,7 +218,7 @@
 	((vector :table-of-contents options list)
 	  (replace-tag! doc :id () (cons (apply #'make-toc options) list))
 	  (walk doc))
-	(* (walk doc))))
+	(_ (walk doc))))
 
     ;; Another pass for internal references, after all sections are indexed.
     (walking-document (doc *document*)
@@ -230,7 +228,7 @@
                 (hname (car section-data))
                 (title (cdr section-data)))
            (replace-tag! doc :a (list :href hname) (or body (list title)))))
-	(* (walk doc))))
+	(_ (walk doc))))
 
     (setf *toc* (nreverse *toc*))
     (when *footnotes*

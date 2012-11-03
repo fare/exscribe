@@ -1,9 +1,7 @@
 #+xcvb
 (module
  (:depends-on
-  ("fare-utils"
-   "fare-matcher"
-   "exscribe/packages"
+  ("exscribe/packages"
    "exscribe/macros"
    "exscribe/specials")))
 
@@ -23,9 +21,7 @@
   (progn
     (defmacro make-tag (tag attr contents)
       `(vector ,tag ,attr ,contents))
-    (define-macro-matcher tag
-      #'(lambda (tag attr contents)
-	  (pattern-matcher `(vector ,tag ,attr ,contents))))
+    (defpattern tag (tag attr contents) `(vector ,tag ,attr ,contents))
     (defun replace-tag! (x tag attr contents)
       (setf (svref x 0) tag
 	    (svref x 1) attr
@@ -36,9 +32,7 @@
   (progn
     (defmacro make-tag (tag attr contents)
       `(cons (cons ,tag ,attr) ,contents))
-    (define-macro-matcher tag
-      #'(lambda (tag attr contents)
-	  (pattern-matcher `(cons (cons ,tag ,attr) ,contents))))
+    (defpattern tag (tag attr contents) `(cons (cons ,tag ,attr) ,contents))
     (defun replace-tag! (x tag attr contents)
       (setf (car x) (cons tag attr)
 	    (cdr x) contents))

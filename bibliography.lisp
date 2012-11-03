@@ -7,9 +7,7 @@
 #+xcvb
 (module
  (:depends-on
-  ("fare-utils"
-   "fare-matcher"
-   "exscribe/packages"
+  ("exscribe/packages"
    "exscribe/macros"
    "exscribe/specials"
    "exscribe/exscribe-data")))
@@ -22,7 +20,7 @@
   (let ((h (make-hash-table :test 'eql)))
     (dolist (f fields)
       (ematch f
-	((list (and fn (of-type symbol)) fv)
+	((list (and fn (typep symbol)) fv)
 	  (setf (gethash fn h) fv))))
     h))
 (defun init-bib-entry (m kind ident fields)
@@ -41,8 +39,8 @@
 	(warn "Discarding duplicate bibliography entry ~A" ident))))
 (defun bib-add! (table entry)
   (match entry
-    ((list* (and kind (of-type symbol))
-	    (and ident (of-type (or string symbol)))
+    ((list* (and kind (typep symbol))
+	    (and ident (typep (or string symbol)))
 	    fields)
      (let* ((ident (conc-string ident))
 	    (old (gethash ident table)))
@@ -50,7 +48,7 @@
 	   (merge-bib-entry old kind entry fields)
 	   (setf (gethash ident table)
 		 (make-bib-entry kind ident fields)))))
-    (* (error "bad bibliography entry ~A" entry))))
+    (_ (error "bad bibliography entry ~A" entry))))
 (define-markup (bibliography &rest r)
    (dolist (f r)
      (cond

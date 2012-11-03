@@ -1,9 +1,7 @@
 #+xcvb
 (module
  (:depends-on
-  ("fare-utils"
-   "fare-matcher"
-   "exscribe/packages"
+  ("exscribe/packages"
    "exscribe/specials"
    "exscribe/exscribe-data")))
 
@@ -33,14 +31,14 @@
        (emit-quote () (emit "\""))
        (walk (x)
          (match x
-           ((tag :p * x) (space) (walk x) (space))
-           ((tag :q * x) (emit-quote) (walk x) (emit-quote))
-           ((tag :br * *) (space))
-           ((tag :footnote * *) nil)
-           ((tag * * x) (walk x))
-           ((of-type string) (emit x))
+           ((tag :p _ x) (space) (walk x) (space))
+           ((tag :q _ x) (emit-quote) (walk x) (emit-quote))
+           ((tag :br _ _) (space))
+           ((tag :footnote _ _) nil)
+           ((tag _ _ x) (walk x))
+           ((typep string) (emit x))
            ((cons x y) (walk x) (walk y))
-           (* nil))))
+           (_ nil))))
     (walk node)
     (normalize-text
      (apply #'concatenate 'string (nreverse strings)))))
