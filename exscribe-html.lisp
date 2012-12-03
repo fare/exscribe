@@ -56,7 +56,7 @@
 	   ((tag :p _ _) x)
 	   ((tag :id _ x) (walk x))
 	   ((tag _ _ _) (fail))
-	   ((typep string) (fail))
+	   ((type string) (fail))
 	   ((cons x y) (or (walk x) (walk y)))
 	   (_ nil))))
     (walk x)))

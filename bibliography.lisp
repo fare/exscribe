@@ -20,7 +20,7 @@
   (let ((h (make-hash-table :test 'eql)))
     (dolist (f fields)
       (ematch f
-	((list (and fn (typep symbol)) fv)
+	((list (and fn (type symbol)) fv)
 	  (setf (gethash fn h) fv))))
     h))
 (defun init-bib-entry (m kind ident fields)
@@ -39,8 +39,8 @@
 	(warn "Discarding duplicate bibliography entry ~A" ident))))
 (defun bib-add! (table entry)
   (match entry
-    ((list* (and kind (typep symbol))
-	    (and ident (typep (or string symbol)))
+    ((list* (and kind (type symbol))
+	    (and ident (type (or string symbol)))
 	    fields)
      (let* ((ident (conc-string ident))
 	    (old (gethash ident table)))

@@ -36,7 +36,7 @@
            ((tag :br _ _) (space))
            ((tag :footnote _ _) nil)
            ((tag _ _ x) (walk x))
-           ((typep string) (emit x))
+           ((type string) (emit x))
            ((cons x y) (walk x) (walk y))
            (_ nil))))
     (walk node)

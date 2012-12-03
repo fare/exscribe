@@ -334,16 +334,16 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
      (process a)
      (process b))
 
-    ((typep character)
+    ((type character)
      (process (string x)))
 
-    ((typep string)
+    ((type string)
      (emit (if *significant-whitespace*
 	       `(verbatim ,x)
 	       `(put-string ,x))))
 
     ;; having full blown closures generated in order to print a single character  which can just be included as-is seems like a gratuitious complexity to me. or is there a deeper reason, maybe for other backends?
-    ((typep function)
+    ((type function)
      (emit `(verbatim ,(with-output-to-string (s) (funcall x s)))))
 
     ((tag :p options list)
