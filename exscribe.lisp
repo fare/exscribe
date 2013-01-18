@@ -49,11 +49,6 @@
     ((or string pathname)
      (find-file-in-path f *exscribe-path* "scr" if-error))))
 
-(defun do-load (s &key &allow-other-keys)
-  (typecase s
-    (stream (cl-launch::load-stream s))
-    ((or string pathname) (load s))))
-
 (defun file-optimization ()
   (proclaim `(optimize (speed 1) (space 2)
               #-sbcl (debug 2)
@@ -71,11 +66,7 @@
 
 (defun exscribe-load-file (file)
   (file-optimization)
-  ;;(cl-launch:compile-and-load-file
-  (load
-   (find-exscribe-file file)
-   :print *exscribe-verbose*
-   :verbose *exscribe-verbose*))
+  (load* file :verbose *exscribe-verbose* :print *exscribe-verbose*))
 
 (defun exscribe-load-style (style)
   (unless (member style *loaded-styles*)
@@ -285,7 +276,6 @@ Options:
         (error "No output specified"))
       (process-file (car inputs) :into output))))
 
-#+cl-launch
 (defun main ()
   (add-exscribe-path *default-pathname-defaults*)
-  (process-command-line cl-launch:*arguments*))
+  (process-command-line *command-line-arguments*))

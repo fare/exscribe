@@ -2,9 +2,9 @@
 (module
  (:depends-on ("scribble/package")))
 
-(in-package :cl)
+(in-package :asdf/driver)
 
-(defpackage :scheme-makeup
+(define-package :scheme-makeup
   (:documentation "a poor emulation of Scheme in CL.
 Meant to leverage simple code with Scheme syntax,
 not to actually implement deep Scheme semantics.")
@@ -29,18 +29,19 @@ not to actually implement deep Scheme semantics.")
    #:*scribe-background* #:*scribe-foreground* #:*scribe-tbackground*
    #:*scribe-format* #:*scribe-header* #:*scribe-footer*))
 
-(defpackage :scheme-compat
+(define-package :scheme-compat
   (:documentation "innards of the Scheme in CL emulation")
-  (:use :scheme-makeup
-        :xcvb-utils :fare-quasiquote :optima :common-lisp)
+  (:mix :asdf/driver :fare-utils :alexandria)
+  (:use :scheme-makeup :fare-quasiquote :optima :common-lisp)
   ;;(:shadowing-import-from :scheme-makeup :map)
   (:export
    #:set-scheme-macro-characters))
 
-(defpackage :exscribe
+(define-package :exscribe
   (:documentation "core infrastructure for exscribe")
-  (:use :scribble
-        :xcvb-utils :fare-quasiquote :optima :common-lisp)
+  (:mix :asdf/driver :fare-utils :alexandria)
+  (:reexport :asdf/driver :fare-utils :alexandria)
+  (:use :scribble :fare-quasiquote :optima :common-lisp :cl-launch)
   #+exscribe-typeset
   (:import-from :typeset
    #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*
@@ -83,10 +84,9 @@ not to actually implement deep Scheme semantics.")
    #:html #:pdf #:txt #:info
    #:document #:style))
 
-(defpackage :exscribe-data
+(define-package :exscribe-data
   (:documentation "internal data representation for exscribe")
-  (:use :exscribe
-        :xcvb-utils :fare-quasiquote :optima :common-lisp)
+  (:use :exscribe :fare-quasiquote :optima :common-lisp)
   (:export
    #:tag-attr #:tag #:xtag #:otag #:ctag
    #:make-xml-tag #:make-open-tag #:make-close-tag
@@ -109,7 +109,7 @@ not to actually implement deep Scheme semantics.")
    #:brlist #:br* #:spacedlist #:spaced*
    #:walking-document #:walk #:recurse))
 
-(defpackage :html-dumper
+(define-package :html-dumper
   (:documentation "HTML dumping functions")
   (:use :common-lisp)
   (:export
@@ -117,28 +117,26 @@ not to actually implement deep Scheme semantics.")
    #:html-string #:html-escape-stream
    #:html-tag-attr #:html-close-tag))
 
-(defpackage :exscribe-html
+(define-package :exscribe-html
   (:documentation "HTML backend for exscribe")
   (:shadowing-import-from :exscribe-data #:html)
   (:use :exscribe-data :exscribe :html-dumper
-        :xcvb-utils :fare-quasiquote :optima :common-lisp))
+        :fare-quasiquote :optima :common-lisp))
 
-(defpackage :exscribe-txt
+(define-package :exscribe-txt
   (:documentation "Text backend for exscribe")
-  (:use :exscribe-data :exscribe
-        :xcvb-utils :fare-quasiquote :optima :common-lisp)
+  (:use :exscribe-data :exscribe :fare-quasiquote :optima :common-lisp)
   (:export #:extract-text #:normalize-text))
 
 #+exscribe-typeset
-(defpackage :exscribe-typeset
+(define-package :exscribe-typeset
   (:documentation "CL-Typesetting backend for exscribe")
   (:shadowing-import-from :exscribe-data #:image #:hrule #:table)
-  (:use :exscribe-data :exscribe :typeset
-        :xcvb-utils :fare-quasiquote :optima :common-lisp)
+  (:use :exscribe-data :exscribe :typeset :fare-quasiquote :optima :common-lisp)
   (:export))
 
-(defpackage :exscribe-user
+(define-package :exscribe-user
   ;(:shadowing-import-from :scheme-makeup :map)
   (:use :exscribe-html :exscribe-data :exscribe :scheme-makeup
-        :xcvb-utils :fare-quasiquote :optima :common-lisp)
+        :fare-quasiquote :optima :common-lisp)
   (:export))
