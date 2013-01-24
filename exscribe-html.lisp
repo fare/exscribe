@@ -49,14 +49,14 @@
 
 (defun find-first-paragraph (x)
   (labels
-      ((fail ()
+      ((fail! ()
 	 (return-from find-first-paragraph nil))
        (walk (x)
 	 (match x
 	   ((tag :p _ _) x)
 	   ((tag :id _ x) (walk x))
-	   ((tag _ _ _) (fail))
-	   ((type string) (fail))
+	   ((tag _ _ _) (fail!))
+	   ((type string) (fail!))
 	   ((cons x y) (or (walk x) (walk y)))
 	   (_ nil))))
     (walk x)))

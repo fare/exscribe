@@ -41,7 +41,7 @@ not to actually implement deep Scheme semantics.")
   (:documentation "core infrastructure for exscribe")
   (:mix :asdf/driver :fare-utils :alexandria)
   (:reexport :asdf/driver :fare-utils :alexandria)
-  (:use :scribble :fare-quasiquote :optima :common-lisp :cl-launch)
+  (:use :scribble :fare-quasiquote :optima :common-lisp)
   #+exscribe-typeset
   (:import-from :typeset
    #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*

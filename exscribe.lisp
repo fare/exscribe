@@ -68,6 +68,52 @@
   (file-optimization)
   (load* file :verbose *exscribe-verbose* :print *exscribe-verbose*))
 
+
+;;; These two functions initially from cl-launch.
+(defun file-newer-p (new-file old-file)
+  "Returns true if NEW-FILE is strictly newer than OLD-FILE."
+  (> (file-write-date new-file) (file-write-date old-file)))
+(defun compile-and-load-file (source &key force-recompile
+                              (verbose *load-verbose*) (load t)
+                              output-file)
+  "compiles and load specified SOURCE file, if either required by keyword
+argument FORCE-RECOMPILE, or not yet existing, or not up-to-date.
+Keyword argument VERBOSE specifies whether to be verbose.
+Returns two values: the fasl path, and T if the file was (re)compiled"
+
+  ;; When in doubt, don't trust - recompile. Indeed, there are
+  ;; edge cases cases when on the first time of compiling a simple
+  ;; auto-generated file (e.g. from the automated test suite), the
+  ;; fasl ends up being written to disk within the same second as the
+  ;; source was produced, which cannot be distinguished from the
+  ;; reverse case where the source code was produced in the same split
+  ;; second as the previous version was done compiling. Could be
+  ;; tricky if a big system needs be recompiled as a dependency on an
+  ;; automatically generated file, but for cl-launch those
+  ;; dependencies are not detected anyway (BAD). If/when they are, and
+  ;; lacking better timestamps than the filesystem provides, you
+  ;; should sleep after you generate your source code.
+  #+(and gcl (not gcl<2.7))
+  (setf source (ensure-lisp-file-name source (concatenate 'string (pathname-name source) ".lisp")))
+  (let* ((truesource (truename source))
+         (fasl (or output-file (compile-file-pathname* truesource)))
+         (compiled-p
+          (when (or force-recompile
+                    (not (probe-file fasl))
+                    (not (file-newer-p fasl source)))
+            (ensure-directories-exist fasl)
+            (multiple-value-bind (path warnings failures)
+                (compile-file* truesource :output-file fasl)
+              (declare (ignorable warnings failures))
+              (unless (equal (truename fasl) (truename path))
+                (error "CL-Launch: file compiled to ~A, expected ~A" path fasl))
+              (when failures
+                (error "CL-Launch: failures while compiling ~A" source)))
+            t)))
+    (when load
+      (load* fasl :verbose verbose))
+    (values fasl compiled-p)))
+
 (defun exscribe-load-style (style)
   (unless (member style *loaded-styles*)
     (push style *loaded-styles*)
@@ -75,7 +121,7 @@
     (let* ((file (find-exscribe-file style))
            (date (file-write-date file))
            (force (and *latest-style-date* (< date *latest-style-date*)))
-           (object (cl-launch:compile-and-load-file
+           (object (compile-and-load-file
                     file :force-recompile force :verbose *exscribe-verbose*))
            (object-date (file-write-date object)))
       (setf *latest-style-date*
