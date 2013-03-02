@@ -93,7 +93,7 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
   ;; dependencies are not detected anyway (BAD). If/when they are, and
   ;; lacking better timestamps than the filesystem provides, you
   ;; should sleep after you generate your source code.
-  #+(and gcl (not gcl<2.7))
+  #+(and gcl (not gcl2.6))
   (setf source (ensure-lisp-file-name source (concatenate 'string (pathname-name source) ".lisp")))
   (let* ((truesource (truename source))
          (fasl (or output-file (compile-file-pathname* truesource)))
