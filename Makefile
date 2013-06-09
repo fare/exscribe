@@ -11,9 +11,9 @@
 # we prefer SBCL by default, because it is faster than all except CMUCL
 # (and even than CMUCL, on amd64) and the latest cl-pdf works with it.
 #
-INSTALL_BIN=${HOME}/bin
-INSTALL_LIB=${HOME}/.local/lib
-INSTALL_SHARE=${HOME}/.local/share
+INSTALL_BIN=${HOME}/local/stow/lisp/bin
+INSTALL_LIB=${HOME}/local/stow/lisp/lib
+INSTALL_SHARE=${HOME}/local/stow/lisp/share
 IMAGE_DIR=${INSTALL_LIB}/common-lisp/images
 LISPS=sbcl cmucl clisp openmcl allegro
 CLBUILD=--no-clbuild
@@ -32,8 +32,8 @@ XCVB_WORKSPACE := /tmp/${USER}/exscribe-workspace
 XCVB_OBJECT_CACHE := ${XCVB_WORKSPACE}/obj
 
 ${INSTALL_BIN}/exscribe: install
-install: install-with-xcvb
-#install: install-with-asdf
+#install: install-with-xcvb
+install: install-with-asdf
 
 # How to build it with XCVB:
 install-with-xcvb:

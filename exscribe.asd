@@ -11,7 +11,7 @@
 using a high-level syntax (Scribble) completely integrated with the CL syntax.
 It notably features proper support for footnotes, table-of-contents, bibliography."
   :depends-on (:scribble :fare-utils :alexandria :fare-quasiquote-optima :fare-memoization
-	       #+exscribe-typeset :cl-typesetting)
+               (:feature :exscribe-typeset :cl-typesetting))
   :components ((:file "packages")
 	       (:file "macros" :depends-on ("packages"))
 	       (:file "specials" :depends-on ("macros"))
@@ -22,5 +22,5 @@ It notably features proper support for footnotes, table-of-contents, bibliograph
 	       (:file "html-dumper" :depends-on ("packages"))
 	       (:file "exscribe-html" :depends-on ("exscribe-data" "bibliography" "html-dumper"))
 	       (:file "exscribe-txt" :depends-on ("exscribe-data"))
-	       #+exscribe-typeset
-	       (:file "exscribe-typeset" :depends-on ("exscribe-txt"))))
+	       (:file "exscribe-typeset" :depends-on ("exscribe-txt")
+                      :if-feature :exscribe-typeset)))
