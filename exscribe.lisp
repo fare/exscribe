@@ -324,4 +324,5 @@ Options:
 
 (defun main ()
   (add-exscribe-path *default-pathname-defaults*)
-  (process-command-line *command-line-arguments*))
+  (process-command-line *command-line-arguments*)
+  (quit 0))
