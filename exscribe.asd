@@ -1,5 +1,7 @@
 ;;; -*- Lisp -*-
 
+#-asdf3 (error "Exscribe requires ASDF3")
+
 ;; Add your favorite implementation if you manage to get cl-pdf working with it.
 #+(or sbcl clisp clozure lispworks)
 (eval-when (:compile-toplevel :load-toplevel :execute)
