@@ -39,6 +39,7 @@ install: install-with-asdf
 install-with-xcvb:
 	mkdir -p ${XCVB_WORKSPACE} ${XCVB_OBJECT_CACHE}
 	xcvb mkmk --build /exscribe --setup /exscribe/setup \
+		--define exscribe-typeset \
 		--lisp-implementation sbcl \
 		--workspace ${XCVB_WORKSPACE} \
 		--object-cache ${XCVB_OBJECT_CACHE}
@@ -54,7 +55,7 @@ install-with-asdf:
 	CL_LAUNCH_VERBOSE=${VERBOSE} \
 	cl-launch ${CLBUILD} --lisp "${LISPS}" \
 		--no-include \
-		--file setup.lisp --system exscribe --restart 'exscribe::main' \
+		--file setup.lisp --system exscribe/typeset --restart 'exscribe::main' \
 		--output ${INSTALL_BIN}/exscribe \
 		${DUMP}
 

@@ -2,11 +2,6 @@
 
 #-asdf3 (error "Exscribe requires ASDF3")
 
-;; Add your favorite implementation if you manage to get cl-pdf working with it.
-#+(or sbcl clisp clozure lispworks)
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (pushnew :exscribe-typeset *features*))
-
 (defsystem :exscribe
   :description "Programmatically create HTML documents from a high-level syntax"
   :long-description "Exscribe helps you author documents and produce HTML output,
@@ -23,6 +18,9 @@ It notably features proper support for footnotes, table-of-contents, bibliograph
 	       (:file "bibliography" :depends-on ("exscribe-data"))
 	       (:file "html-dumper" :depends-on ("packages"))
 	       (:file "exscribe-html" :depends-on ("exscribe-data" "bibliography" "html-dumper"))
-	       (:file "exscribe-txt" :depends-on ("exscribe-data"))
-	       (:file "exscribe-typeset" :depends-on ("exscribe-txt")
-                      :if-feature :exscribe-typeset)))
+	       (:file "exscribe-txt" :depends-on ("exscribe-data"))))
+
+(defsystem :exscribe/typeset
+  :description "CL-Typesetting backend for Exscribe"
+  :depends-on (:exscribe :cl-typesetting)
+  :components ((:file "exscribe-typeset")))

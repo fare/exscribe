@@ -17,6 +17,23 @@ serve as a basic inspiration for what cl-typesetting code to output.
 Also, some code stolen from com.gigamonkeys.markup, then mutilated.
 |#
 
+(uiop:define-package :exscribe-typeset
+  (:documentation "CL-Typesetting backend for exscribe")
+  (:shadowing-import-from :exscribe-data #:image #:hrule #:table)
+  (:use :exscribe-data :exscribe :typeset :fare-quasiquote :optima :common-lisp)
+  (:import-from :typeset
+   #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*
+   #:*watermark-fn* #:*add-chapter-numbers*  ;;#:*verbose*
+   #:*font-normal* #:*font-bold* #:*font-italic*
+   #:*font-bold-italic* #:*font-monospace* #:*default-text-style*
+   #:*chapter-styles*)
+  (:export
+   #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*
+   #:*watermark-fn* #:*add-chapter-numbers*  ;;#:*verbose*
+   #:*font-normal* #:*font-bold* #:*font-italic*
+   #:*font-bold-italic* #:*font-monospace* #:*default-text-style*
+   #:*chapter-styles*))
+
 (in-package :exscribe-typeset)
 
 

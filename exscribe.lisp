@@ -93,8 +93,8 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
   ;; dependencies are not detected anyway (BAD). If/when they are, and
   ;; lacking better timestamps than the filesystem provides, you
   ;; should sleep after you generate your source code.
-  #+(and gcl (not gcl2.6))
-  (setf source (ensure-lisp-file-name source (concatenate 'string (pathname-name source) ".lisp")))
+  #+gcl
+  (setf source (ensure-lisp-file-name source (strcat (pathname-name source) ".lisp")))
   (let* ((truesource (truename source))
          (fasl (or output-file (compile-file-pathname* truesource)))
          (compiled-p
@@ -106,9 +106,9 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
                 (compile-file* truesource :output-file fasl)
               (declare (ignorable warnings failures))
               (unless (equal (truename fasl) (truename path))
-                (error "CL-Launch: file compiled to ~A, expected ~A" path fasl))
+                (error "file compiled to ~A, expected ~A" path fasl))
               (when failures
-                (error "CL-Launch: failures while compiling ~A" source)))
+                (error "failures while compiling ~A" source)))
             t)))
     (when load
       (load* fasl :verbose verbose))
@@ -183,7 +183,7 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
   (ecase mode
       (html (exscribe-html::init))
       (txt (exscribe-txt::init))
-      #+exscribe-typeset (pdf (exscribe-typeset::init))))
+      (pdf (symbol-call :exscribe-typeset :init))))
 
 (defun call-with-exscribe-environment (thunk)
   (let ((*package* (find-package :exscribe-user))
@@ -229,13 +229,7 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
 	(ensure-directories-exist output :verbose verbose)
 	(when verbose
 	  (format t "Exscribe: compiling~%  ~A~%   into ~A~%" input output))
-	(with-open-file (*standard-output*
-			 output
-			 :direction :output
-			 :if-exists :supersede
-                         :element-type #+pdf-binary #+sbcl :default #-sbcl '(unsigned-byte 8)
-                                       #-pdf-binary #+sbcl 'character #-sbcl 'base-char
-                         )
+	(with-output-file (*standard-output* output :if-exists :supersede)
 	  (exscribe-load-document input))))))
 
 (defun process-many (src dst &rest files)
@@ -247,10 +241,11 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
 	for input = (find-exscribe-file f) do
 	(process-file input :translator translator :verbose t)))
 
-(defun help (&optional (s *standard-output*))
-  (format s
-	  "exscribe ~A -- Lisp-programmable document authoring system.
-Usage: exscribe [-I include]... [-v]~A [-o output] input
+(defun help (&optional out)
+  (with-output (out)
+    (format out
+            "exscribe ~A -- Lisp-programmable document authoring system.
+Usage: exscribe [-I include]... [-v] [-H~:[~;|-P~]] [-o output] input
 Homepage: http://www.cliki.net/Exscribe
 
 Options:
@@ -263,14 +258,12 @@ Options:
  -M     --many      src dst files...    compile files from src to dst
  -D     --debug                         enable the Lisp debugger
         --repl                          provide the user a REPL
-" *exscribe-version*
-#+exscribe-typeset " [-H|-P]" #-exscribe-typeset ""))
+"
+            *exscribe-version* (find-package :exscribe-typeset))))
 
 
 (defun enable-debugging ()
-  #+sbcl (sb-ext:enable-debugger)
-  #+cmu (setf ext:*batch-mode* nil)
-  nil)
+  (setf uiop:*lisp-interaction* t))
 
 (defun repl ()
   (enable-debugging)
@@ -289,8 +282,9 @@ Options:
 	 ((x "-h" "-?" "--help") (return (help)))
 	 ((x "-H" "--html")
 	  (setf *exscribe-mode* 'html))
-	 #+exscribe-typeset
 	 ((x "-P" "--pdf")
+          (unless (find-package :exscribe-typeset)
+            (error "cl-typesetting backend not available"))
 	  (setf *exscribe-mode* 'pdf))
 	 ((x "-v" "--verbose")
 	  (setf *exscribe-verbose* t))

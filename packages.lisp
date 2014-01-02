@@ -39,23 +39,9 @@ not to actually implement deep Scheme semantics.")
 
 (define-package :exscribe
   (:documentation "core infrastructure for exscribe")
-  (:mix :asdf/driver :fare-utils :alexandria)
-  (:reexport :asdf/driver :fare-utils :alexandria)
+  (:mix :uiop :fare-utils :alexandria)
+  (:reexport :uiop :fare-utils :alexandria)
   (:use :scribble :fare-quasiquote :optima :common-lisp)
-  #+exscribe-typeset
-  (:import-from :typeset
-   #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*
-   #:*watermark-fn* #:*add-chapter-numbers*  ;;#:*verbose*
-   #:*font-normal* #:*font-bold* #:*font-italic*
-   #:*font-bold-italic* #:*font-monospace* #:*default-text-style*
-   #:*chapter-styles*)
-  #+exscribe-typeset
-  (:export
-   #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*
-   #:*watermark-fn* #:*add-chapter-numbers*  ;;#:*verbose*
-   #:*font-normal* #:*font-bold* #:*font-italic*
-   #:*font-bold-italic* #:*font-monospace* #:*default-text-style*
-   #:*chapter-styles*)
   (:export
    #:init-exscribe #:ensure-exscribe
    #:add-exscribe-path
@@ -127,13 +113,6 @@ not to actually implement deep Scheme semantics.")
   (:documentation "Text backend for exscribe")
   (:use :exscribe-data :exscribe :fare-quasiquote :optima :common-lisp)
   (:export #:extract-text #:normalize-text))
-
-#+exscribe-typeset
-(define-package :exscribe-typeset
-  (:documentation "CL-Typesetting backend for exscribe")
-  (:shadowing-import-from :exscribe-data #:image #:hrule #:table)
-  (:use :exscribe-data :exscribe :typeset :fare-quasiquote :optima :common-lisp)
-  (:export))
 
 (define-package :exscribe-user
   ;(:shadowing-import-from :scheme-makeup :map)
