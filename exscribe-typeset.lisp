@@ -21,6 +21,7 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
   (:documentation "CL-Typesetting backend for exscribe")
   (:shadowing-import-from :exscribe-data #:image #:hrule #:table)
   (:use :exscribe-data :exscribe :typeset :fare-quasiquote :optima :common-lisp)
+  (:reexport :exscribe)
   (:import-from :typeset
    #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*
    #:*watermark-fn* #:*add-chapter-numbers*  ;;#:*verbose*
@@ -359,6 +360,9 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
 	       `(verbatim ,x)
 	       `(put-string ,x))))
 
+    ((type integer)
+     (process (princ-to-string x)))
+
     ;; having full blown closures generated in order to print a single character  which can just be included as-is seems like a gratuitious complexity to me. or is there a deeper reason, maybe for other backends?
     ((type function)
      (emit `(verbatim ,(with-output-to-string (s) (funcall x s)))))
@@ -441,6 +445,10 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
        (push (cons n note) *footnotes*)))
 
     ((tag :font _ list)
+     (process list))
+
+    ;; FIXME: handle superscript!
+    ((tag :sup _ list)
      (process list))
 
     ((tag :bibliography _ list)
