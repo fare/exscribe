@@ -9,6 +9,7 @@ using a high-level syntax (Scribble) completely integrated with the CL syntax.
 It notably features proper support for footnotes, table-of-contents, bibliography."
   :depends-on (:scribble :fare-utils :alexandria :fare-quasiquote-optima :fare-memoization
                (:feature :exscribe-typeset :cl-typesetting))
+  :version (:read-file-form "specials.lisp" :at (1 2))
   :components ((:file "packages")
 	       (:file "macros" :depends-on ("packages"))
 	       (:file "specials" :depends-on ("macros"))
