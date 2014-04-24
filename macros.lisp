@@ -180,12 +180,3 @@
     `(flet ((,thunk () ,@body))
        (if *xtime* (xtime ,msg (,thunk)) (,thunk)))))
 )
-
-;;; Enable my quasiquote implementation for use with optima...
-#+nil
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  #-(or cmu sbcl clisp)
-  (progn
-    (error "We use optima with quasiquotes.
-Until fare-quasiquote is fixed, only CMUCL SBCL and CLISP are supported. Sorry.")
-    (fare-quasiquote:enable-quasiquote)))

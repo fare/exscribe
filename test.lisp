@@ -11,7 +11,8 @@ time /usr/local/bin/scribe -t html -o /dev/null /dev/null
 (defparameter *c '((list :x x) (list :y y)))
 ``(f ,@,@*c)
 
-(fare-quasiquote:enable-quasiquote)
+(named-readtables:in-readtable :fare-quasiquote)
+
 ``(,@,@*c)
 
 (let ((kw :hr)(options ())(tag 'hrule))
@@ -75,7 +76,6 @@ TODO:
 (add-exscribe-path "/home/fare/fare/www")
 (trace exscribe-load-style cl-launch:compile-and-load-file compile-file load)
 (process-file "/home/fare/fare/www/index.scr")
-
 
 )
 
