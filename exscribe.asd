@@ -2,12 +2,15 @@
 
 #-asdf3 (error "Exscribe requires ASDF3")
 
-(defsystem :exscribe
+(defsystem "exscribe"
   :description "Programmatically create HTML documents from a high-level syntax"
   :long-description "Exscribe helps you author documents and produce HTML output,
 using a high-level syntax (Scribble) completely integrated with the CL syntax.
 It notably features proper support for footnotes, table-of-contents, bibliography."
-  :depends-on (:scribble :fare-utils :alexandria :fare-quasiquote-optima :fare-memoization
+  :depends-on ((:version "scribble" "1.0.0")
+               (:version "fare-utils" "1.0.0")
+               (:version "fare-quasiquote-optima" "0.9.6")
+               "alexandria" "fare-memoization"
                (:feature :exscribe-typeset :cl-typesetting))
   :version (:read-file-form "specials.lisp" :at (1 2))
   :components ((:file "packages")
