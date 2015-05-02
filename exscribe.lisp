@@ -241,7 +241,7 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
 	for input = (find-exscribe-file f) do
 	(process-file input :translator translator :verbose t)))
 
-(defun help (&optional out)
+(defun help (&optional (out t))
   (with-output (out)
     (format out
             "exscribe ~A -- Lisp-programmable document authoring system.
@@ -316,7 +316,7 @@ Options:
         (error "No output specified"))
       (process-file (car inputs) :into output))))
 
-(defun main ()
+(defun main (argv)
   (add-exscribe-path *default-pathname-defaults*)
-  (process-command-line *command-line-arguments*)
+  (process-command-line argv)
   (quit 0))

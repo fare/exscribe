@@ -46,7 +46,7 @@ install-with-xcvb:
 	make -C ${XCVB_WORKSPACE} -f xcvb.mk -j || \
 		XCVB_DEBUGGING=t make -C ${XCVB_WORKSPACE} -f xcvb.mk
 	cl-launch --image ${XCVB_OBJECT_CACHE}/fare.tunes.org/exscribe.image \
-		--restart exscribe::main \
+		--entry exscribe::main \
 		--output ${INSTALL_BIN}/exscribe \
 		${DUMP}
 
@@ -55,7 +55,7 @@ install-with-asdf:
 	CL_LAUNCH_VERBOSE=${VERBOSE} \
 	cl-launch ${CLBUILD} --lisp "${LISPS}" \
 		--no-include \
-		--file setup.lisp --system exscribe/typeset --restart 'exscribe::main' \
+		--file setup.lisp --system exscribe/typeset --entry 'exscribe::main' \
 		--output ${INSTALL_BIN}/exscribe \
 		${DUMP}
 
