@@ -4,6 +4,7 @@
 (module
  (:depends-on
   ("fare-utils"
+   "uiop"
    "scribble"
    "exscribe/packages"
    "exscribe/macros"
@@ -95,7 +96,7 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
   ;; should sleep after you generate your source code.
   #+gcl
   (setf source (ensure-lisp-file-name source (strcat (pathname-name source) ".lisp")))
-  (let* ((truesource (truename source))
+  (let* ((truesource (truenamize source))
          (fasl (or output-file (compile-file-pathname* truesource)))
          (compiled-p
           (when (or force-recompile
@@ -105,7 +106,7 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
             (multiple-value-bind (path warnings failures)
                 (compile-file* truesource :output-file fasl)
               (declare (ignorable warnings failures))
-              (unless (equal (truename fasl) (truename path))
+              (unless (equal (truenamize fasl) (truenamize path))
                 (error "file compiled to ~A, expected ~A" path fasl))
               (when failures
                 (error "failures while compiling ~A" source)))
