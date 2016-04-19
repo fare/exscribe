@@ -13,8 +13,8 @@ It notably features proper support for footnotes, table-of-contents, bibliograph
   :depends-on ((:version "scribble" "1.0.0")
                (:version "fare-utils" "1.0.0")
                (:version "fare-quasiquote-optima" "0.9.6")
-               "alexandria" "fare-memoization"
-               (:feature :exscribe-typeset :cl-typesetting))
+               "alexandria" "fare-memoization")
+  :entry-point "exscribe::entry-point"
   :components ((:file "packages")
 	       (:file "macros" :depends-on ("packages"))
 	       (:file "specials" :depends-on ("macros"))
@@ -26,7 +26,14 @@ It notably features proper support for footnotes, table-of-contents, bibliograph
 	       (:file "exscribe-html" :depends-on ("exscribe-data" "bibliography" "html-dumper"))
 	       (:file "exscribe-txt" :depends-on ("exscribe-data"))))
 
-(defsystem :exscribe/typeset
+(defsystem "exscribe/typeset"
   :description "CL-Typesetting backend for Exscribe"
-  :depends-on (:exscribe :cl-typesetting)
-  :components ((:file "exscribe-typeset")))
+  :depends-on ("exscribe" "cl-typesetting")
+  :components ((:file "exscribe-typeset"))
+  :build-operation program-op
+  :build-pathname "exscribe"
+  :entry-point "exscribe::entry-point")
+
+(defsystem "exscribe/executable"
+  :description "Exscribe and all extensions"
+  :in-order-to ((load-op (program-op "exscribe/typeset"))))

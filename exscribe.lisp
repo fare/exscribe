@@ -321,3 +321,6 @@ Options:
   (add-exscribe-path *default-pathname-defaults*)
   (process-command-line argv)
   (quit 0))
+
+(defun entry-point ()
+  (main *command-line-arguments*))

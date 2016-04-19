@@ -2,7 +2,7 @@
 (module
  (:depends-on ("scribble/package")))
 
-(in-package :asdf/driver)
+(in-package :uiop)
 
 (define-package :scheme-makeup
   (:documentation "a poor emulation of Scheme in CL.
@@ -31,7 +31,7 @@ not to actually implement deep Scheme semantics.")
 
 (define-package :scheme-compat
   (:documentation "innards of the Scheme in CL emulation")
-  (:mix :asdf/driver :fare-utils :alexandria)
+  (:mix :uiop :fare-utils :alexandria)
   (:use :scheme-makeup :fare-quasiquote :optima :common-lisp)
   ;;(:shadowing-import-from :scheme-makeup :map)
   (:export
