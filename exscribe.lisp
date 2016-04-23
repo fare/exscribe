@@ -99,12 +99,13 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
   (let* ((truesource (truenamize source))
          (fasl (or output-file (compile-file-pathname* truesource)))
          (compiled-p
-          (when (or force-recompile
-                    (not (probe-file fasl))
-                    (not (file-newer-p fasl source)))
-            (ensure-directories-exist fasl)
-            (multiple-value-bind (path warnings failures)
-                (compile-file* truesource :output-file fasl)
+	  (when (or force-recompile
+		    (not (probe-file fasl))
+		    (not (file-newer-p fasl source)))
+	    (ensure-directories-exist fasl)
+	    (multiple-value-bind (path warnings failures)
+		(let ((*standard-output* *error-output*))
+		  (compile-file* truesource :output-file fasl))
               (declare (ignorable warnings failures))
               (unless (equal (truenamize fasl) (truenamize path))
                 (error "file compiled to ~A, expected ~A" path fasl))
@@ -122,8 +123,9 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
     (let* ((file (find-exscribe-file style))
            (date (file-write-date file))
            (force (and *latest-style-date* (< date *latest-style-date*)))
-           (object (compile-and-load-file
-                    file :force-recompile force :verbose *exscribe-verbose*))
+           (object (let ((*error-output* *stderr*))
+		     (compile-and-load-file
+		      file :force-recompile force :verbose *exscribe-verbose*)))
            (object-date (file-write-date object)))
       (setf *latest-style-date*
             (if *latest-style-date*
