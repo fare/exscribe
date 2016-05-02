@@ -67,7 +67,8 @@
 
 (defun exscribe-load-file (file)
   (file-optimization)
-  (load* file :verbose *exscribe-verbose* :print *exscribe-verbose*))
+  (let ((*error-output* *stderr*))
+    (load* file :verbose *exscribe-verbose* :print *exscribe-verbose*)))
 
 
 ;;; These two functions initially from cl-launch.

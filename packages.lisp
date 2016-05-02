@@ -92,6 +92,7 @@ not to actually implement deep Scheme semantics.")
    #:small #:enumerate #:sc #:color #:code #:print-bibliography #:process-bibliography
    #:img #:image
    #:html #:head #:body
+   #:address #:form #:input
    #:brlist #:br* #:spacedlist #:spaced*
    #:walking-document #:walk #:recurse))
 
