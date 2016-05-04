@@ -118,5 +118,5 @@ not to actually implement deep Scheme semantics.")
 (define-package :exscribe-user
   ;(:shadowing-import-from :scheme-makeup :map)
   (:use :exscribe-html :exscribe-data :exscribe :scheme-makeup
-        :fare-quasiquote :optima :common-lisp)
+        :fare-quasiquote :optima :common-lisp :fare-scripts/rescript)
   (:export))

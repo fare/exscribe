@@ -13,7 +13,9 @@ It notably features proper support for footnotes, table-of-contents, bibliograph
   :depends-on ((:version "scribble" "1.0.0")
                (:version "fare-utils" "1.0.0")
                (:version "fare-quasiquote-optima" "0.9.6")
-               "alexandria" "fare-memoization")
+               "alexandria"
+	       "fare-memoization"
+	       "fare-scripts/rescript")
   :entry-point "exscribe::entry-point"
   :components ((:file "packages")
 	       (:file "macros" :depends-on ("packages"))
