@@ -1,6 +1,6 @@
 # User-configurable variables
 # You may edit the variables here, or override from the command-line.
-# 
+#
 # e.g. to use c-l-c systems and dump a standalone executable with SBCL, try
 #	make LISPS=sbcl DUMP=! SYSTEMS_DIR=/usr/share/common-lisp/systems
 # e.g. to use c-l-c systems and dump a clisp image, try
@@ -55,7 +55,7 @@ install-with-asdf:
 	CL_LAUNCH_VERBOSE=${VERBOSE} \
 	cl-launch ${CLBUILD} --lisp "${LISPS}" \
 		--no-include \
-		--file setup.lisp --system exscribe/typeset --entry 'exscribe::main' \
+		--system exscribe/typeset --entry 'exscribe::main' \
 		--output ${INSTALL_BIN}/exscribe \
 		${DUMP}
 
