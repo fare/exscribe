@@ -9,7 +9,7 @@
 using a high-level syntax (Scribble) completely integrated with the CL syntax.
 It notably features proper support for footnotes, table-of-contents, bibliography."
   :author "Francois-Rene Rideau"
-  :license "LLGPL" ;; also bugroff
+  :license "MIT" ;; also bugroff
   :depends-on ((:version "scribble" "1.0.0")
                (:version "fare-utils" "1.0.0")
                (:version "fare-quasiquote-optima" "0.9.6")
