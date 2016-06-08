@@ -61,11 +61,17 @@
 	   (_ nil))))
     (walk x)))
 
+(defparameter *footnote-style* 'identity)
+
+(defun footnote-style (x)
+  (funcall *footnote-style* x))
+
 (defun edit-footnote (note num)
-  (aif (find-first-paragraph note)
-       (prog1 note
-	 (push (edited-footnote nil num) (tag-contents it)))
-       (p :align 'justify (edited-footnote note num))))
+  (footnote-style
+   (aif (find-first-paragraph note)
+	(prog1 note
+	  (push (edited-footnote nil num) (tag-contents it)))
+	(p :align 'justify (edited-footnote note num)))))
 
 (defun make-footnote (note)
   (let* ((num (incf *footnote-counter*))

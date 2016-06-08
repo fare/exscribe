@@ -58,6 +58,7 @@ not to actually implement deep Scheme semantics.")
    #:*bibliography-header*
    #:*document* #:*document-title* #:*header* #:*footer*
    #:*footnotes* #:*footnote-counter* #:*footnotes-title*
+   #:footnote-style #:*footnote-style* ;; Is this the correct package for that???
    #:*section-counter* #:*subsection-counter* #:*subsubsection-counter*
    #:*generate-label-counter*
    #:*section-name* #:*subsection-name* #:*subsubsection-name*
