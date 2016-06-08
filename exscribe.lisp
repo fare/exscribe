@@ -321,6 +321,7 @@ Options:
       (process-file (car inputs) :into output))))
 
 (defun main (argv)
+  (setf *load-verbose* nil)
   (add-exscribe-path *default-pathname-defaults*)
   (process-command-line argv)
   (quit 0))
