@@ -15,7 +15,8 @@ It notably features proper support for footnotes, table-of-contents, bibliograph
                (:version "fare-quasiquote-optima" "0.9.6")
                "alexandria"
 	       "fare-memoization"
-	       "fare-scripts/rescript")
+	       "fare-scripts/rescript"
+	       "quri")
   :entry-point "exscribe::entry-point"
   :components ((:file "packages")
 	       (:file "macros" :depends-on ("packages"))

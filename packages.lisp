@@ -41,7 +41,7 @@ not to actually implement deep Scheme semantics.")
   (:documentation "core infrastructure for exscribe")
   (:mix :uiop :fare-utils :alexandria)
   (:reexport :uiop :fare-utils :alexandria)
-  (:use :scribble :fare-quasiquote :optima :common-lisp)
+  (:use :scribble :fare-quasiquote :optima :common-lisp :quri)
   (:export
    #:init-exscribe #:ensure-exscribe
    #:add-exscribe-path
@@ -73,7 +73,7 @@ not to actually implement deep Scheme semantics.")
 
 (define-package :exscribe-data
   (:documentation "internal data representation for exscribe")
-  (:use :exscribe :fare-quasiquote :optima :common-lisp)
+  (:use :exscribe :fare-quasiquote :optima :common-lisp :quri)
   (:export
    #:tag-attr #:tag #:xtag #:otag #:ctag
    #:make-xml-tag #:make-open-tag #:make-close-tag
@@ -95,6 +95,7 @@ not to actually implement deep Scheme semantics.")
    #:html #:head #:body
    #:address #:form #:input
    #:brlist #:br* #:spacedlist #:spaced*
+   #:*trusted-hosts* #:url-trusted-p
    #:walking-document #:walk #:recurse))
 
 (define-package :html-dumper
@@ -119,5 +120,5 @@ not to actually implement deep Scheme semantics.")
 (define-package :exscribe-user
   ;(:shadowing-import-from :scheme-makeup :map)
   (:use :exscribe-html :exscribe-data :exscribe :scheme-makeup
-        :fare-quasiquote :optima :common-lisp :fare-scripts/rescript)
+        :fare-quasiquote :optima :common-lisp :fare-scripts/rescript :quri)
   (:export))

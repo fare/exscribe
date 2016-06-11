@@ -182,6 +182,8 @@
    *bibliography-header*
    (brlist (mapcar 'show-bib-entry entries))))
 
+(defun href-attributes (url)
+  (unless (url-trusted-p url) '(:target "_blank" :rel "noopener noreferrer")))
 
 (defun postprocess-document ()
   (let ((fnotes (id)))
@@ -191,7 +193,7 @@
     (walking-document (doc *document*)
       (match doc
 	((tag :ref (list :url url) body)
-         (replace-tag! doc :a (list :href url) body)
+	 (replace-tag! doc :a (list* :href url (href-attributes url)) body)
          (walk doc))
 	((tag :ref (list :bib entry) list)
          (unless (null list) (error "bad bib ref ~A" doc))

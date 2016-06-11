@@ -185,3 +185,10 @@
   (tag-attr tag #'make-close-tag args))
 
 (defun *list* (&rest x) (apply #'*list (apply #'list* x)))
+
+(defparameter *trusted-hosts* (make-hash-table :test 'equal))
+
+(defun url-trusted-p (url)
+  (let ((uri (uri url)))
+    (or (null (uri-scheme uri))
+	(nth-value 1 (gethash (uri-host uri) *trusted-hosts*)))))
