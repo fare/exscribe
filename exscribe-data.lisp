@@ -191,4 +191,5 @@
 (defun url-trusted-p (url)
   (let ((uri (uri url)))
     (or (null (uri-scheme uri))
+	(null (uri-host uri))
 	(nth-value 1 (gethash (uri-host uri) *trusted-hosts*)))))
