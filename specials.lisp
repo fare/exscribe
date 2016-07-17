@@ -2,12 +2,10 @@
 
 #+xcvb (module (:depends-on ("exscribe/packages")))
 
-(in-package :exscribe)
+(in-package :exscribe-data)
 
-(defparameter *exscribe-version* "0.95.10")
-;;#.(multiple-value-bind (sec min hr day mo yr) (get-decoded-time) sec min hr (format nil "~A-~A-~A" yr mo day))
-
-(defvar *exscribe-initialized* nil "has exscribe already been initialized?")
+(defparameter *exscribe-version* "0.96.0")
+;;#.(multiple-value-bind (sec min hr day mo yr) (get-decoded-time) sec min hr (format nil "~A.~A.~A" yr mo day))
 
 (defvar *exscribe-directory*
   (pathname-directory-pathname
@@ -22,10 +20,6 @@
 (defvar *exscribe-mode* 'html "The current output mode used by exscribe")
 
 (defvar *exscribe-verbose* nil)
-
-(defparameter *mode-suffixes*
-  '((html "html" "htm")
-    (pdf "pdf")))
 
 (defvar *document* nil "The current document")
 (defvar *document-title* nil "The current document's title")
@@ -48,7 +42,7 @@
 
 (defvar *footnotes* nil "place-holder for footnotes being currently processed")
 (defvar *footnote-counter* 0 "counter for footnotes")
-(defvar *footnotes-title* "Notes")
+(defvar *footnotes-header* (lambda () (id (hrule) (h4 "Notes"))))
 
 (defvar *background* "white" "main text background color")
 (defvar *foreground* "black" "main text foreground color")
@@ -64,5 +58,3 @@
 (defvar *postprocess-hooks* nil
   "functions to run after a first pass on the document")
 
-(defvar *loaded-styles* nil)
-(defvar *latest-style-date* nil)

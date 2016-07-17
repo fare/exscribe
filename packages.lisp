@@ -57,7 +57,7 @@ not to actually implement deep Scheme semantics.")
    #:*bibliography* #:*bibliography-location* #:*bibliography-options*
    #:*bibliography-header*
    #:*document* #:*document-title* #:*header* #:*footer*
-   #:*footnotes* #:*footnote-counter* #:*footnotes-title*
+   #:*footnotes* #:*footnote-counter* #:*footnotes-header*
    #:footnote-style #:*footnote-style* ;; Is this the correct package for that???
    #:*section-counter* #:*subsection-counter* #:*subsubsection-counter*
    #:*generate-label-counter*
@@ -96,7 +96,9 @@ not to actually implement deep Scheme semantics.")
    #:address #:form #:input
    #:brlist #:br* #:spacedlist #:spaced*
    #:*trusted-hosts* #:url-trusted-p
-   #:walking-document #:walk #:recurse))
+   #:walking-document #:walk #:recurse
+   #:*make-title-hook* #:*make-author-hook*
+   ))
 
 (define-package :html-dumper
   (:documentation "HTML dumping functions")

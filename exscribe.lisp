@@ -117,6 +117,9 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
       (load* fasl :verbose verbose))
     (values fasl compiled-p)))
 
+(defvar *loaded-styles* nil)
+(defvar *latest-style-date* nil)
+
 (defun exscribe-load-style (style)
   (unless (member style *loaded-styles*)
     (push style *loaded-styles*)
@@ -166,6 +169,8 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
 		      :default-head 'klist
 		      :preprocess nil))
 
+(defvar *exscribe-initialized* nil "has exscribe already been initialized?")
+
 (defun init-exscribe ()
   (recreate-user-package)
   (configure-scribble-for-exscribe)
@@ -193,7 +198,6 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
   (let ((*package* (find-package :exscribe-user))
 	(*footnotes* nil)
 	(*footnote-counter* 0)
-	(*footnotes-title* "Notes")
 	(*header* nil)
 	(*footer* nil)
 	(*section-counter* 0)
@@ -218,6 +222,10 @@ Returns two values: the fasl path, and T if the file was (re)compiled"
 (defun exscribe-load-document (f)
   (with-exscribe-environment ()
     (exscribe-load-file f)))
+
+(defparameter *mode-suffixes*
+  '((html "html" "htm")
+    (pdf "pdf")))
 
 (defun process-file (from
 		     &key into translator

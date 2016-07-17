@@ -132,7 +132,8 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
 			       '(vspace 6))
 
 		    (when *footnotes*
-		      (emit (new-section 0 *footnotes-title* :number nil))
+		      ;; TODO: use *footnotes-header*
+		      (emit (new-section 0 "Notes" :number nil))
 
 		      (let ((*default-font-size* 10))
 			(loop for (counter . note) in (nreverse *footnotes*) do

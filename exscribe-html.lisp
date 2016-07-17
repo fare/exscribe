@@ -24,22 +24,32 @@
 (defun sc (&rest x)
   (apply 'span :style "font-variant: small-caps" x))
 
-(defun make-title (&key title author)
-  (when title
-    (table :width "100%"
-	   (tr (td :bgcolor *title-background* :align 'center
-		   (font :color *foreground*
-			 :face "sans-serif" :size "10" (bold title))
-		   (when author (*list (br) author)))))))
+(defparameter *make-title-hook*
+  (lambda (&key title author)
+    (when title
+      (table :width "100%"
+	     (tr (td :bgcolor *title-background* :align 'center
+		     (font :color *foreground*
+			   :face "sans-serif" :size "10" (bold title))
+		     (when author (*list (br) author))))))))
 
-(defun make-author (&key name email affiliation url)
-  (declare (ignore email))
-  (center
-   (br*
-    (when name (font :size "+3" (it name)))
-    (when affiliation (font :size "+1" affiliation))
-    (when url (font :size "+1"
-		    (tt (if (stringp url) (a :href url url) url)))))))
+(defun make-title (&rest keys &key title author)
+  (declare (ignore title author))
+  (apply *make-title-hook* keys))
+
+(defparameter *make-author-hook*
+  (lambda (&key name email affiliation url)
+    (declare (ignore email))
+    (center
+     (br*
+      (when name (font :size "+3" (it name)))
+      (when affiliation (font :size "+1" affiliation))
+      (when url (font :size "+1"
+		      (tt (if (stringp url) (a :href url url) url))))))))
+
+(defun make-author (&rest keys &key name email affiliation url)
+  (declare (ignore name email affiliation url))
+  (apply *make-author-hook* keys))
 
 (defun edited-footnote (note num)
   (list
@@ -241,7 +251,7 @@
     (setf *toc* (nreverse *toc*))
     (when *footnotes*
       (setf (tag-contents fnotes)
-	    (cons (id (hrule) (h4 *footnotes-title*))
+	    (cons (funcall *footnotes-header*)
 		  (reverse *footnotes*))))
     (apply #'process-bibliography
            :display #'display-bibliography
