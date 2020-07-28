@@ -12,7 +12,7 @@ It notably features proper support for footnotes, table-of-contents, bibliograph
   :license "MIT" ;; also bugroff
   :depends-on ((:version "scribble" "1.0.0")
                (:version "fare-utils" "1.0.0")
-               (:version "fare-quasiquote-optima" "0.9.6")
+               "trivia.quasiquote"
                "alexandria"
                "fare-memoization"
                "fare-scripts/rescript"

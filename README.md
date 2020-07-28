@@ -41,7 +41,7 @@ Exscribe depends on:
 [fare-scripts](http://cliki.net/fare-scripts),
 [fare-utils](fare-utils),
 [meta](http://cliki.net/meta),
-[optima](http://cliki.net/optima), and
+[trivia](http://cliki.net/trivia), and
 [scribble](http://cliki.net/scribble).
 
 If compiled with the PDF backend, then Exscribe also depends on

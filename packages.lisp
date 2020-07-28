@@ -32,7 +32,7 @@ not to actually implement deep Scheme semantics.")
 (define-package :scheme-compat
   (:documentation "innards of the Scheme in CL emulation")
   (:mix :uiop :fare-utils :alexandria)
-  (:use :scheme-makeup :fare-quasiquote :optima :common-lisp)
+  (:use :scheme-makeup :fare-quasiquote :trivia :common-lisp)
   ;;(:shadowing-import-from :scheme-makeup :map)
   (:export
    #:set-scheme-macro-characters))
@@ -41,7 +41,7 @@ not to actually implement deep Scheme semantics.")
   (:documentation "core infrastructure for exscribe")
   (:mix :uiop :fare-utils :alexandria)
   (:reexport :uiop :fare-utils :alexandria)
-  (:use :scribble :fare-quasiquote :optima :common-lisp :quri)
+  (:use :scribble :fare-quasiquote :trivia :common-lisp :quri)
   (:export
    #:init-exscribe #:ensure-exscribe
    #:add-exscribe-path
@@ -73,7 +73,7 @@ not to actually implement deep Scheme semantics.")
 
 (define-package :exscribe-data
   (:documentation "internal data representation for exscribe")
-  (:use :exscribe :fare-quasiquote :optima :common-lisp :quri)
+  (:use :exscribe :fare-quasiquote :trivia :common-lisp :quri)
   (:export
    #:tag-attr #:tag #:xtag #:otag #:ctag
    #:make-xml-tag #:make-open-tag #:make-close-tag
@@ -112,15 +112,15 @@ not to actually implement deep Scheme semantics.")
   (:documentation "HTML backend for exscribe")
   (:shadowing-import-from :exscribe-data #:html)
   (:use :exscribe-data :exscribe :html-dumper
-        :fare-quasiquote :optima :common-lisp))
+        :fare-quasiquote :trivia :common-lisp))
 
 (define-package :exscribe-txt
   (:documentation "Text backend for exscribe")
-  (:use :exscribe-data :exscribe :fare-quasiquote :optima :common-lisp)
+  (:use :exscribe-data :exscribe :fare-quasiquote :trivia :common-lisp)
   (:export #:extract-text #:normalize-text))
 
 (define-package :exscribe-user
   ;(:shadowing-import-from :scheme-makeup :map)
   (:use :exscribe-html :exscribe-data :exscribe :scheme-makeup
-        :fare-quasiquote :optima :common-lisp :fare-scripts/rescript :quri)
+        :fare-quasiquote :trivia :common-lisp :fare-scripts/rescript :quri)
   (:export))

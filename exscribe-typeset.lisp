@@ -20,7 +20,7 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
 (uiop:define-package :exscribe-typeset
   (:documentation "CL-Typesetting backend for exscribe")
   (:shadowing-import-from :exscribe-data #:image #:hrule #:table)
-  (:use :exscribe-data :exscribe :typeset :fare-quasiquote :optima :common-lisp)
+  (:use :exscribe-data :exscribe :typeset :fare-quasiquote :trivia :common-lisp)
   (:reexport :exscribe)
   (:import-from :typeset
    #:*paper-size* #:*page-margins* #:*twosided* #:*toc-depth*
@@ -536,7 +536,7 @@ Also, some code stolen from com.gigamonkeys.markup, then mutilated.
 (defun init ()
   #+nil (setf scribble:*scribble-preprocess* #'pdfize-string)
   (setf *exscribe-document-hook* 'process-document)
-  (setf *footnotes-title* "Notes")
+  (setf *footnotes-header* (lambda () (id (hrule) (h4 "Notes"))))
   (push #'process-delayed-forms *postprocess-hooks*)
   (setf pdf:*compress-streams* t)
   nil)
